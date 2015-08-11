@@ -1,6 +1,8 @@
 Finnish SSN validator
 =====================
 
+[![Build Status](https://travis-ci.org/vkomulai/finnish-ssn.svg?branch=master)](https://travis-ci.org/vkomulai/finnish-ssn)
+
 - Small library for validating and creating Finnish social security numbers.
 
 Installation
