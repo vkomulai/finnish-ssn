@@ -1,0 +1,28 @@
+{
+  "name": "finnish-ssn",
+  "main": "finnish-ssn.js",
+  "version": "0.0.1",
+  "authors": [
+    "vkomulai <ville.komulainen@iki.fi>"
+  ],
+  "description": "Small utility for validating and creating Finnish social security numbers (SSN). No more, no less.",
+  "moduleType": [
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "Finnish",
+    "SSN",
+    "Hetu",
+    "Sotu"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/vkomulai/finnish-ssn",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
