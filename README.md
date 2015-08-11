@@ -33,7 +33,8 @@ Web: Writes FinnishSSN into global namespace.
 ``` html
 <script src="finnish-ssn.min.js"></script>
 <script>
-  var isValid = FinnishSSN.validate('010101-100X');
+  // This is valid SSN
+  var isValid = FinnishSSN.validate('290296-7808');
 </script>
 
 ```
@@ -41,10 +42,12 @@ Web: Writes FinnishSSN into global namespace.
 Examples
 --------
 
-Validate an SSN (invalid)
+Validate an SSN
 
 ``` js
-console.log('valid ssn returns ' + FinnishSSN.validate('010198-1000'));
+//  This is valid SSN
+console.log('valid ssn returns ' + FinnishSSN.validate('290296-7808'));
+//  This is invalid SSN
 console.log('invalid ssn returns ' + FinnishSSN.validate('010198-1000'));
 ```
 
