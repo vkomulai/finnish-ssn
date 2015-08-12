@@ -3,7 +3,7 @@
  * Purpose: Validate and generate Finnish SSN's according to https://fi.wikipedia.org/wiki/Henkil%C3%B6tunnus
  * Author:  Ville Komulainen
  */
-//! https://github.com/vkomulai/finnish-ssn | Version: 0.0.1
+//! https://github.com/vkomulai/finnish-ssn | Version: 0.0.3
 (function(global) {
   "use strict";
 
