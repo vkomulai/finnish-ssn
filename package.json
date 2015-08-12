@@ -2,7 +2,7 @@
   "name": "finnish-ssn",
   "version": "0.0.2",
   "license": "MIT",
-  "description": "Small utility for validating and creating Finnish social security numbers (SSN). No more, no less.",
+  "description": "Small utility for validating and creating Finnish social security numbers. No more, no less.",
   "author": "Ville Komulainen",
   "main": "finnish-ssn.js",
   "scripts": {
