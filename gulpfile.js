@@ -29,7 +29,7 @@ gulp.task('test', [], function () {
 
 gulp.task('build', [], function () {
   gulp.src(libSrc)
-    .pipe(uglify())
+    .pipe(uglify({preserveComments: 'some'}))
     .pipe(rename(minified))
     .pipe(gulp.dest('./'));
 });

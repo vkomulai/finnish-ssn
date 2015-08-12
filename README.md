@@ -1,5 +1,5 @@
-Finnish SSN validator
-=====================
+Finnish SSN validation and creation
+===================================
 
 [![Build Status](https://travis-ci.org/vkomulai/finnish-ssn.svg?branch=master)](https://travis-ci.org/vkomulai/finnish-ssn)
 
@@ -70,7 +70,7 @@ yields
 
 ```
 # Valid SSN, where XXXX is a random string with valid checksum.
-010195-XXXX
+SSN for person that is 20 years old 010195-XXXX
 ```
 
 Functions

@@ -2,8 +2,8 @@
  * Project: finnish-ssn
  * Purpose: Validate and generate Finnish SSN's according to https://fi.wikipedia.org/wiki/Henkil%C3%B6tunnus
  * Author:  Ville Komulainen
- * Github:  https://github.com/vkomulai/finnish-ssn
  */
+//! https://github.com/vkomulai/finnish-ssn | Version: 0.0.1
 (function(global) {
   "use strict";
 
@@ -106,7 +106,7 @@
   }
 
   function isLeapYear(year) {
-    return !((year % 4) || (!(year % 100) && (year % 400)));
+    return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
   }
 
   global.validate = validate;

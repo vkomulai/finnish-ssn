@@ -74,7 +74,7 @@ describe("finnishSSN", function () {
       expect(finnishSSN.validate('290296-7808')).to.equal(true);
     });
 
-    it("Should pass when given valid finnishSSN with leap year, divisible by 100 and not by 400", function () {
+    it("Should fail when given valid finnishSSN with leap year, divisible by 100 and not by 400", function () {
       expect(finnishSSN.validate('290200-101P')).to.equal(false);
     });
 
