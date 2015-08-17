@@ -1,25 +1,36 @@
 {
   "name": "finnish-ssn",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "license": "MIT",
-  "description": "Small utility for validating and creating Finnish social security numbers. No more, no less.",
+  "description": "Small utility for validating and creating Finnish social security numbers. No more, no less, no dependencies.",
   "author": "Ville Komulainen",
   "main": "finnish-ssn.js",
+  "keywords": [
+    "Finnish",
+    "SSN",
+    "Validation",
+    "Hetu",
+    "Sotu"
+  ],
   "scripts": {
     "test": "gulp test"
   },
   "devDependencies": {
     "chai": "^3.0.0",
     "gulp": "^3.9.0",
+    "gulp-coverage": "^0.3.36",
     "gulp-jshint": "^1.11.1",
     "gulp-mocha": "^2.1.2",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^1.2.0",
-    "gulp-coverage": "^0.3.36",
+    "lodash": "^3.10.1",
     "mocha": "^2.2.5"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/vkomulai/finnish-ssn"
+  },
+  "bugs": {
+    "url": "https://github.com/vkomulai/finnish-ssn/issues"
   }
 }

@@ -28,6 +28,9 @@ Node.js
 ``` js
 var FinnishSSN = require('finnish-ssn');
 var isValid = FinnishSSN.validate('010101-100X');
+console.log(isValid);
+//  Yields true
+
 ```
 
 Web: Writes FinnishSSN into global namespace.
@@ -37,6 +40,8 @@ Web: Writes FinnishSSN into global namespace.
 <script>
   // This is valid SSN
   var isValid = FinnishSSN.validate('290296-7808');
+  console.log(isValid);
+  //  Yields true
 </script>
 
 ```
@@ -60,6 +65,26 @@ valid ssn returns true
 invalid ssn returns false
 ```
 
+Parse SSN
+
+``` js
+//  This is valid SSN
+var parsedSsn =  FinnishSSN.parse('290296-7808'));
+//  This is invalid SSN
+console.log(parsedSsn);
+```
+
+yields
+
+```js
+{
+  valid: true,
+  sex: 'female',
+  ageInYears: 19,
+  dateOfBirth: Thu Feb 29 1996 00:00:00 GMT+0200 (EET)
+}
+```
+
 Create an SSN for person that is 20 years old.
 
 ``` js
@@ -80,6 +105,31 @@ Functions
 
 - Validates parameter given SSN. Returns true if SSN is valid, otherwise false
 
+### #parse(ssn)
+
+- Parses parameter given SSN. Returns object ``{valid: boolean, sex: "male|female", ageInYears: Number, dateOfBirth: Date }``
+
+```js
+{
+  valid: false,
+  sex: null,
+  ageInYears: null,
+  dateOfBirth: null
+}
+{
+  valid: true,
+  sex: 'male',
+  ageInYears: 15,
+  dateOfBirth: Tue Feb 29 2000 00:00:00 GMT+0200 (EET)
+}
+{
+  valid: true,
+  sex: 'female',
+  ageInYears: 15,
+  dateOfBirth: Mon Feb 28 2000 00:00:00 GMT+0200 (EET)
+}
+```
+
 ### #createWithAge(age)
 
 - Creates a valid SSN using the given age (Integer). Generates randomly male and female SSN'n.
@@ -95,8 +145,6 @@ gulp
 
 Future development
 ------------------
-- Add function describe(ssn) returning parsed SSN {valid:bool, age:int, sex:string, dateOfBirth:Date}
-  - refactor FinnishSSN.validate(ssn) as a shortcut for return describe(ssn).valid
 - add to https://cdnjs.com/
 - add to https://github.com/madrobby/microjs.com
 

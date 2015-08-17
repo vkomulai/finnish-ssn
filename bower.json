@@ -1,11 +1,11 @@
 {
   "name": "finnish-ssn",
   "main": "finnish-ssn.js",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "authors": [
     "vkomulai <ville.komulainen@iki.fi>"
   ],
-  "description": "Small utility for validating and creating Finnish social security numbers (SSN). No more, no less.",
+  "description": "Small utility for validating and creating Finnish social security numbers (SSN). No more, no less, no dependencies",
   "moduleType": [
     "globals",
     "node"
@@ -13,6 +13,7 @@
   "keywords": [
     "Finnish",
     "SSN",
+    "Validation",
     "Hetu",
     "Sotu"
   ],

@@ -1,6 +1,8 @@
 "use strict";
 var finnishSSN = require("../finnish-ssn"),
-    expect = require("chai").expect;
+    expect = require("chai").expect,
+    _ = require("lodash"),
+    currentYear = new Date().getFullYear();
 
 describe("finnishSSN", function () {
 
@@ -36,10 +38,10 @@ describe("finnishSSN", function () {
 
     it("Should fail when given invalid separator chars", function () {
       var invalidSeparatorChars = "bcdefghijlmnopqrtsuv1234567890".split("");
-      for (var i = 0; i < invalidSeparatorChars.length; i++) {
-        expect(finnishSSN.validate("010195" + invalidSeparatorChars[i] + "433X")).to.equal(false);
-        expect(finnishSSN.validate("010195" + invalidSeparatorChars[i].toUpperCase() + "433X")).to.equal(false);
-      }
+      _(invalidSeparatorChars).forEach(function(invalidChar) {
+        expect(finnishSSN.validate("010195" + invalidChar + "433X")).to.equal(false);
+        expect(finnishSSN.validate("010195" + invalidChar.toUpperCase() + "433X")).to.equal(false);
+      });
     });
 
     it("Should fail when given too long date", function () {
@@ -80,6 +82,82 @@ describe("finnishSSN", function () {
 
     it("Should pass when given valid finnishSSN with leap year, divisible by 100 and by 400", function () {
       expect(finnishSSN.validate('290200A248A')).to.equal(true);
+    });
+  });
+
+  describe("#parse", function () {
+
+    it("Should parse valid, male, born on leap year day 29.2.2000", function () {
+      var parsed = finnishSSN.parse('290200A717E');
+      expect(parsed.valid).to.equal(true);
+      expect(parsed.sex).to.equal(finnishSSN.MALE);
+      expect(parsed.dateOfBirth.getFullYear()).to.equal(2000);
+      expect(parsed.dateOfBirth.getMonth() + 1).to.equal(2);
+      expect(parsed.dateOfBirth.getDate()).to.equal(29);
+      expect(parsed.ageInYears).to.equal(currentYear - 2000);
+    });
+
+    it("Should parse valid, female, born on 01.01.1999", function () {
+      var parsed = finnishSSN.parse('010199-8148');
+      expect(parsed.valid).to.equal(true);
+      expect(parsed.sex).to.equal(finnishSSN.FEMALE);
+      expect(parsed.dateOfBirth.getFullYear()).to.equal(1999);
+      expect(parsed.dateOfBirth.getMonth() + 1).to.equal(1);
+      expect(parsed.dateOfBirth.getDate()).to.equal(1);
+      expect(parsed.ageInYears).to.equal(currentYear - 1999);
+    });
+
+    it("Should parse valid, female, born on 31.12.2010", function () {
+      var parsed = finnishSSN.parse('311210A540N');
+      expect(parsed.valid).to.equal(true);
+      expect(parsed.sex).to.equal(finnishSSN.FEMALE);
+      expect(parsed.dateOfBirth.getFullYear()).to.equal(2010);
+      expect(parsed.dateOfBirth.getMonth() + 1).to.equal(12);
+      expect(parsed.dateOfBirth.getDate()).to.equal(31);
+      expect(parsed.ageInYears).to.equal(currentYear - 2010);
+    });
+
+    it("Should parse valid, male, born on 2.2.1888", function () {
+      var parsed = finnishSSN.parse('020288+9818');
+      expect(parsed.valid).to.equal(true);
+      expect(parsed.sex).to.equal(finnishSSN.MALE);
+      expect(parsed.dateOfBirth.getFullYear()).to.equal(1888);
+      expect(parsed.dateOfBirth.getMonth() + 1).to.equal(2);
+      expect(parsed.dateOfBirth.getDate()).to.equal(2);
+      expect(parsed.ageInYears).to.equal(currentYear - 1888);
+    });
+
+    it("Should detect invalid SSN, lowercase checksum char", function () {
+      var parsed = finnishSSN.parse('311210A540n');
+      expect(parsed.valid).to.equal(false);
+      expect(parsed.sex).to.be.null;
+      expect(parsed.dateOfBirth).to.be.null;
+      expect(parsed.ageInYears).to.be.null;
+    });
+
+    it("Should detect invalid SSN with invalid checksum", function () {
+      var parsed = finnishSSN.parse('170895-951K');
+      expect(parsed.sex).to.equal(finnishSSN.MALE);
+      expect(parsed.dateOfBirth.getFullYear()).to.equal(1995);
+      expect(parsed.dateOfBirth.getMonth() + 1).to.equal(8);
+      expect(parsed.dateOfBirth.getDate()).to.equal(17);
+      expect(parsed.ageInYears).to.equal(currentYear - 1995);
+    });
+
+    it("Should detect invalid SSN with month out of bounds", function () {
+      var parsed = finnishSSN.parse('301398-1233');
+      expect(parsed.valid).to.equal(false);
+      expect(parsed.sex).to.be.null;
+      expect(parsed.dateOfBirth).to.be.null;
+      expect(parsed.ageInYears).to.be.null;
+    });
+
+    it("Should detect invalid SSN with day of month out of bounds", function () {
+      var parsed = finnishSSN.parse('330198-123X');
+      expect(parsed.valid).to.equal(false);
+      expect(parsed.sex).to.be.null;
+      expect(parsed.dateOfBirth).to.be.null;
+      expect(parsed.ageInYears).to.be.null;
     });
   });
 
