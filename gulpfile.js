@@ -1,6 +1,6 @@
 var gulp = require('gulp'),
   uglify = require('gulp-uglify'),
-  jshint = require('gulp-jshint'),
+  eslint = require('gulp-eslint')
   rename = require('gulp-rename'),
   mocha = require('gulp-mocha'),
   cover = require('gulp-coverage');
@@ -9,10 +9,11 @@ var libSrc = 'finnish-ssn.js',
     specSrc = 'test/finnish-ssn_test.js',
     minified = 'finnish-ssn.min.js';
 
-gulp.task('hint', function () {
-  gulp.src(libSrc)
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'));
+gulp.task('lint', function () {
+    return gulp.src([libSrc])
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
 });
 
 gulp.task('test', [], function () {
@@ -34,5 +35,5 @@ gulp.task('build', [], function () {
     .pipe(gulp.dest('./'));
 });
 
-gulp.task('default', [ 'hint', 'test', 'build' ], function () {
+gulp.task('default', [ 'lint', 'test', 'build' ], function () {
 });

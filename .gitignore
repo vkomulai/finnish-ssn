@@ -3,6 +3,9 @@
 *.iml
 .eclipse/
 
+# todo backlog
+backlog.md
+
 # Logs
 logs
 *.log

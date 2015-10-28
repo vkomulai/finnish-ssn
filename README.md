@@ -146,8 +146,8 @@ gulp
 
 Future development
 ------------------
-- add to https://cdnjs.com/
-- add to https://github.com/madrobby/microjs.com
+- Add to https://cdnjs.com/
+- ES6 conversion
 
 License
 -------
