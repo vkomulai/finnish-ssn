@@ -30,7 +30,7 @@
       MALE = "male",
       MIN_AGE = 1,
       MAX_AGE = 200,
-      SSN_REGEX =  /[0-3][\d][0-1][0-9][0-9]{2}[+\-A][\d]{3}[\dA-Z]/
+      SSN_REGEX = /^[0-3][\d][0-1][0-9][0-9]{2}[+\-A][\d]{3}[\dA-Z]$/
 
   /**
    * Parse parameter given SSN string into Object representation.

@@ -79,6 +79,14 @@ describe("finnishSSN", function () {
       expect(finnishSSN.validate('290200-101P')).to.equal(false)
     })
 
+    it("Should fail when given SSN longer than 11 chars, bogus in the end", function () {
+      expect(finnishSSN.validate('010114A173M ')).to.equal(false)
+    })
+
+    it("Should fail when given SSN longer than 11 chars, bogus in the beginning", function () {
+      expect(finnishSSN.validate(' 010114A173M')).to.equal(false)
+    })
+
     it("Should pass when given valid finnishSSN with leap year, divisible by 100 and by 400", function () {
       expect(finnishSSN.validate('290200A248A')).to.equal(true)
     })
