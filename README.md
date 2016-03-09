@@ -1,7 +1,7 @@
 Finnish SSN validation and creation
 ===================================
 
-[![Build Status](https://travis-ci.org/vkomulai/finnish-ssn.svg?branch=master)](https://travis-ci.org/vkomulai/finnish-ssn)
+[![Build Status](https://travis-ci.org/vkomulai/finnish-ssn.svg?branch=master)](https://travis-ci.org/vkomulai/finnish-ssn) ![0 deps](https://david-dm.org/vkomulai/finnish-ssn.svg)
 
 - A micro Javascript library for validating and creating Finnish social security numbers
 - Lightweight, 1.5kB
