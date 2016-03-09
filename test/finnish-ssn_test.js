@@ -1,7 +1,8 @@
 "use strict"
 var finnishSSN = require("../finnish-ssn"),
     expect = require("chai").expect,
-    currentYear = new Date().getFullYear()
+    mockDate = require('mockdate')
+
 
 describe("finnishSSN", function () {
 
@@ -95,6 +96,8 @@ describe("finnishSSN", function () {
   describe("#parse", function () {
 
     it("Should parse valid, male, born on leap year day 29.2.2000", function () {
+      MockDate.set('20/2/2015');
+      var currentYear = new Date()
       var parsed = finnishSSN.parse('290200A717E')
       expect(parsed.valid).to.equal(true)
       expect(parsed.sex).to.equal(finnishSSN.MALE)
@@ -105,6 +108,8 @@ describe("finnishSSN", function () {
     })
 
     it("Should parse valid, female, born on 01.01.1999", function () {
+      MockDate.set('20/2/2015');
+      var currentYear = new Date()
       var parsed = finnishSSN.parse('010199-8148')
       expect(parsed.valid).to.equal(true)
       expect(parsed.sex).to.equal(finnishSSN.FEMALE)
@@ -115,6 +120,8 @@ describe("finnishSSN", function () {
     })
 
     it("Should parse valid, female, born on 31.12.2010", function () {
+      MockDate.set('20/2/2015');
+      var currentYear = new Date()
       var parsed = finnishSSN.parse('311210A540N')
       expect(parsed.valid).to.equal(true)
       expect(parsed.sex).to.equal(finnishSSN.FEMALE)
@@ -125,6 +132,8 @@ describe("finnishSSN", function () {
     })
 
     it("Should parse valid, male, born on 2.2.1888", function () {
+      MockDate.set('20/2/2015');
+      var currentYear = new Date()
       var parsed = finnishSSN.parse('020288+9818')
       expect(parsed.valid).to.equal(true)
       expect(parsed.sex).to.equal(finnishSSN.MALE)
@@ -135,6 +144,8 @@ describe("finnishSSN", function () {
     })
 
     it("Should detect invalid SSN, lowercase checksum char", function () {
+      MockDate.set('20/2/2015');
+      var currentYear = new Date()
       var parsed = finnishSSN.parse('311210A540n')
       expect(parsed.valid).to.equal(false)
       expect(parsed.sex).to.be.null
@@ -143,6 +154,8 @@ describe("finnishSSN", function () {
     })
 
     it("Should detect invalid SSN with invalid checksum", function () {
+      MockDate.set('20/2/2015');
+      var currentYear = new Date()
       var parsed = finnishSSN.parse('170895-951K')
       expect(parsed.sex).to.equal(finnishSSN.MALE)
       expect(parsed.dateOfBirth.getFullYear()).to.equal(1995)
@@ -152,6 +165,8 @@ describe("finnishSSN", function () {
     })
 
     it("Should detect invalid SSN with month out of bounds", function () {
+      MockDate.set('20/2/2015');
+      var currentYear = new Date()
       var parsed = finnishSSN.parse('301398-1233')
       expect(parsed.valid).to.equal(false)
       expect(parsed.sex).to.be.null
@@ -160,6 +175,8 @@ describe("finnishSSN", function () {
     })
 
     it("Should detect invalid SSN with day of month out of bounds", function () {
+      MockDate.set('20/2/2015');
+      var currentYear = new Date()
       var parsed = finnishSSN.parse('330198-123X')
       expect(parsed.valid).to.equal(false)
       expect(parsed.sex).to.be.null
