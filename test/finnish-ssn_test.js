@@ -1,7 +1,7 @@
 "use strict"
 var finnishSSN = require("../finnish-ssn"),
     expect = require("chai").expect,
-    mockDate = require('mockdate')
+    MockDate = require('mockdate')
 
 
 describe("finnishSSN", function () {
@@ -96,56 +96,50 @@ describe("finnishSSN", function () {
   describe("#parse", function () {
 
     it("Should parse valid, male, born on leap year day 29.2.2000", function () {
-      MockDate.set('20/2/2015');
-      var currentYear = new Date()
+      MockDate.set('2/2/2015');
       var parsed = finnishSSN.parse('290200A717E')
       expect(parsed.valid).to.equal(true)
       expect(parsed.sex).to.equal(finnishSSN.MALE)
       expect(parsed.dateOfBirth.getFullYear()).to.equal(2000)
       expect(parsed.dateOfBirth.getMonth() + 1).to.equal(2)
       expect(parsed.dateOfBirth.getDate()).to.equal(29)
-      expect(parsed.ageInYears).to.equal(currentYear - 2000)
+      expect(parsed.ageInYears).to.equal(new Date().getFullYear() - 2000)
     })
 
     it("Should parse valid, female, born on 01.01.1999", function () {
-      MockDate.set('20/2/2015');
-      var currentYear = new Date()
+      MockDate.set('2/2/2015');
       var parsed = finnishSSN.parse('010199-8148')
       expect(parsed.valid).to.equal(true)
       expect(parsed.sex).to.equal(finnishSSN.FEMALE)
       expect(parsed.dateOfBirth.getFullYear()).to.equal(1999)
       expect(parsed.dateOfBirth.getMonth() + 1).to.equal(1)
       expect(parsed.dateOfBirth.getDate()).to.equal(1)
-      expect(parsed.ageInYears).to.equal(currentYear - 1999)
+      expect(parsed.ageInYears).to.equal(new Date().getFullYear() - 1999)
     })
 
     it("Should parse valid, female, born on 31.12.2010", function () {
-      MockDate.set('20/2/2015');
-      var currentYear = new Date()
+      MockDate.set('2/2/2015');
       var parsed = finnishSSN.parse('311210A540N')
       expect(parsed.valid).to.equal(true)
       expect(parsed.sex).to.equal(finnishSSN.FEMALE)
       expect(parsed.dateOfBirth.getFullYear()).to.equal(2010)
       expect(parsed.dateOfBirth.getMonth() + 1).to.equal(12)
       expect(parsed.dateOfBirth.getDate()).to.equal(31)
-      expect(parsed.ageInYears).to.equal(currentYear - 2010)
+      expect(parsed.ageInYears).to.equal(new Date().getFullYear() - 2010)
     })
 
     it("Should parse valid, male, born on 2.2.1888", function () {
-      MockDate.set('20/2/2015');
-      var currentYear = new Date()
+      MockDate.set('2/2/2015');
       var parsed = finnishSSN.parse('020288+9818')
       expect(parsed.valid).to.equal(true)
       expect(parsed.sex).to.equal(finnishSSN.MALE)
       expect(parsed.dateOfBirth.getFullYear()).to.equal(1888)
       expect(parsed.dateOfBirth.getMonth() + 1).to.equal(2)
       expect(parsed.dateOfBirth.getDate()).to.equal(2)
-      expect(parsed.ageInYears).to.equal(currentYear - 1888)
+      expect(parsed.ageInYears).to.equal(new Date().getFullYear() - 1888)
     })
 
     it("Should detect invalid SSN, lowercase checksum char", function () {
-      MockDate.set('20/2/2015');
-      var currentYear = new Date()
       var parsed = finnishSSN.parse('311210A540n')
       expect(parsed.valid).to.equal(false)
       expect(parsed.sex).to.be.null
@@ -154,19 +148,15 @@ describe("finnishSSN", function () {
     })
 
     it("Should detect invalid SSN with invalid checksum", function () {
-      MockDate.set('20/2/2015');
-      var currentYear = new Date()
       var parsed = finnishSSN.parse('170895-951K')
       expect(parsed.sex).to.equal(finnishSSN.MALE)
       expect(parsed.dateOfBirth.getFullYear()).to.equal(1995)
       expect(parsed.dateOfBirth.getMonth() + 1).to.equal(8)
       expect(parsed.dateOfBirth.getDate()).to.equal(17)
-      expect(parsed.ageInYears).to.equal(currentYear - 1995)
+      expect(parsed.ageInYears).to.equal(20)
     })
 
     it("Should detect invalid SSN with month out of bounds", function () {
-      MockDate.set('20/2/2015');
-      var currentYear = new Date()
       var parsed = finnishSSN.parse('301398-1233')
       expect(parsed.valid).to.equal(false)
       expect(parsed.sex).to.be.null
@@ -175,8 +165,6 @@ describe("finnishSSN", function () {
     })
 
     it("Should detect invalid SSN with day of month out of bounds", function () {
-      MockDate.set('20/2/2015');
-      var currentYear = new Date()
       var parsed = finnishSSN.parse('330198-123X')
       expect(parsed.valid).to.equal(false)
       expect(parsed.sex).to.be.null
@@ -198,19 +186,23 @@ describe("finnishSSN", function () {
       }).to.throw(/not between sensible age range/)
     })
 
-    it("Should createWithAge valid finnishSSN for 21st century", function () {
+    it("Should create valid finnishSSN for 21st century", function () {
+      MockDate.set('2/2/2015');
       var age = 3,
-          birthYear = new Date().getFullYear() % 100 - age
+          birthYear = '12'
       expect(finnishSSN.createWithAge(age)).to.match(new RegExp("0101" + birthYear + "A[\\d]{3}[A-Z0-9]"))
     })
 
-    it("Should createWithAge valid finnishSSN for 20th century", function () {
-      var age = 25,
-          birthYear = (new Date().getFullYear() - age) % 100
+    it("Should create valid finnishSSN for 20th century", function () {
+      MockDate.set('2/2/2015');
+      var age = 20,
+          birthYear = '95'
       expect(finnishSSN.createWithAge(age)).to.match(new RegExp("0101" + birthYear + "-[\\d]{3}[A-Z0-9]"))
     })
 
-    it("Should createWithAge valid finnishSSN for 19th century", function () {
+    it("Should create valid finnishSSN for 19th century", function () {
+      MockDate.set('2/2/2015');
+
       var age = 125,
           birthYear = (new Date().getFullYear() - age) % 100
       expect(finnishSSN.createWithAge(age)).to.match(new RegExp("0101" + birthYear + "\\+[\\d]{3}[A-Z0-9]"))
@@ -221,13 +213,14 @@ describe("finnishSSN", function () {
       expect(finnishSSN.createWithAge(age)).to.match(new RegExp("010100A[\\d]{3}[A-Z0-9]"))
     })
 
-    it("Should createWithAge valid finnishSSN for year 1999", function () {
+    it("Should create valid finnishSSN for year 1999", function () {
       var age = new Date().getFullYear() - 1999
       expect(finnishSSN.createWithAge(age)).to.match(new RegExp("010199-[\\d]{3}[A-Z0-9]"))
     })
 
-    it("Should createWithAge valid finnishSSN for year 1990", function () {
-      var age = new Date().getFullYear() - 1990
+    it("Should create valid finnishSSN for year 1990", function () {
+      MockDate.set('2/2/2015');
+      var age = 25
       expect(finnishSSN.createWithAge(age)).to.match(new RegExp("010190-[\\d]{3}[A-Z0-9]"))
     })
   })
