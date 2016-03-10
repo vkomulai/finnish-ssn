@@ -1,7 +1,7 @@
 Finnish SSN validation and creation
 ===================================
 
-[![Build Status](https://travis-ci.org/vkomulai/finnish-ssn.svg?branch=master)](https://travis-ci.org/vkomulai/finnish-ssn) ![0 deps](https://david-dm.org/vkomulai/finnish-ssn.svg) [Downloads](https://img.shields.io/npm/dt/finnish-ssn.svg) [License](https://img.shields.io/npm/l/finnish-ssn.svg)
+[![Build Status](https://travis-ci.org/vkomulai/finnish-ssn.svg?branch=master)](https://travis-ci.org/vkomulai/finnish-ssn) ![0 deps](https://david-dm.org/vkomulai/finnish-ssn.svg) ![Downloads](https://img.shields.io/npm/dt/finnish-ssn.svg) ![License](https://img.shields.io/npm/l/finnish-ssn.svg)
 
 
 
