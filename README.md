@@ -158,4 +158,4 @@ Future development
 License
 -------
 
-MIT License
+[MIT License](LICENSE)
