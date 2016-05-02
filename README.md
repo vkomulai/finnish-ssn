@@ -27,6 +27,13 @@ Bower
 bower install finnish-ssn
 ```
 
+From npmcdn.com
+
+```html
+<script src="https://npmcdn.com/finnish-ssn/finnish-ssn.min.js"></script>
+```
+
+
 Usage
 -----
 
