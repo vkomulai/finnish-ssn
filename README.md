@@ -159,8 +159,8 @@ gulp
 
 Future development
 ------------------
-- Add to https://cdnjs.com/
 - ES6 conversion
+- Use a better js doc tool
 
 License
 -------
