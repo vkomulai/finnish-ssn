@@ -1,6 +1,6 @@
 {
   "name": "finnish-ssn",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "description": "Small utility for validating and creating Finnish social security numbers. No more, no less, no dependencies.",
   "author": "Ville Komulainen",

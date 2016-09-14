@@ -3,7 +3,7 @@
  * Purpose: Validate and generate Finnish SSN's according to https://fi.wikipedia.org/wiki/Henkil%C3%B6tunnus
  * Author:  Ville Komulainen
  */
-//! https://github.com/vkomulai/finnish-ssn | Version: 1.0.1
+//! https://github.com/vkomulai/finnish-ssn | Version: 1.0.3
 (function(global) {
   "use strict"
 
@@ -66,13 +66,15 @@
       return parseFailedObj
     }
 
-    var checksumBase = parseInt(ssn.substring(0, 6) + rollingId, 10)
+    var checksumBase = parseInt(ssn.substring(0, 6) + rollingId, 10),
+        dateOfBirth = new Date(year, parseInt(month, 10) - 1, dayOfMonth, 0, 0, 0, 0),
+        today = new Date()
 
     return {
       valid: (checksum === checksumTable[checksumBase % 31]),
       sex: sex,
-      ageInYears: new Date().getFullYear() - year,
-      dateOfBirth: new Date(year, parseInt(month, 10) - 1, dayOfMonth, 0, 0, 0, 0)
+      dateOfBirth: dateOfBirth,
+      ageInYears: ageInYears(dateOfBirth, today)
     }
   }
 
@@ -131,6 +133,15 @@
 
   function isLeapYear(year) {
     return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0)
+  }
+
+  function ageInYears(dateOfBirth, today) {
+    return today.getFullYear() - dateOfBirth.getFullYear() - (birthDayPassed(dateOfBirth, today) ? 1 : 0)
+  }
+
+  function birthDayPassed(dateOfBirth, today) {
+    return dateOfBirth.getMonth() >= today.getMonth() &&
+           dateOfBirth.getDate() > today.getDate()
   }
 
   global.validate = validate

@@ -103,7 +103,7 @@ describe("finnishSSN", () => {
       expect(parsed.dateOfBirth.getFullYear()).to.equal(2000)
       expect(parsed.dateOfBirth.getMonth() + 1).to.equal(2)
       expect(parsed.dateOfBirth.getDate()).to.equal(29)
-      expect(parsed.ageInYears).to.equal(new Date().getFullYear() - 2000)
+      expect(parsed.ageInYears).to.equal(14)
     })
 
     it("Should parse valid, female, born on 01.01.1999", () => {
@@ -114,7 +114,7 @@ describe("finnishSSN", () => {
       expect(parsed.dateOfBirth.getFullYear()).to.equal(1999)
       expect(parsed.dateOfBirth.getMonth() + 1).to.equal(1)
       expect(parsed.dateOfBirth.getDate()).to.equal(1)
-      expect(parsed.ageInYears).to.equal(new Date().getFullYear() - 1999)
+      expect(parsed.ageInYears).to.equal(16)
     })
 
     it("Should parse valid, female, born on 31.12.2010", () => {
@@ -125,10 +125,10 @@ describe("finnishSSN", () => {
       expect(parsed.dateOfBirth.getFullYear()).to.equal(2010)
       expect(parsed.dateOfBirth.getMonth() + 1).to.equal(12)
       expect(parsed.dateOfBirth.getDate()).to.equal(31)
-      expect(parsed.ageInYears).to.equal(new Date().getFullYear() - 2010)
+      expect(parsed.ageInYears).to.equal(4)
     })
 
-    it("Should parse valid, male, born on 2.2.1888", () => {
+    it("Should parse valid, male, born on 2.2.1888, having a birthday today", () => {
       MockDate.set('2/2/2015');
       var parsed = finnishSSN.parse('020288+9818')
       expect(parsed.valid).to.equal(true)
@@ -136,10 +136,22 @@ describe("finnishSSN", () => {
       expect(parsed.dateOfBirth.getFullYear()).to.equal(1888)
       expect(parsed.dateOfBirth.getMonth() + 1).to.equal(2)
       expect(parsed.dateOfBirth.getDate()).to.equal(2)
-      expect(parsed.ageInYears).to.equal(new Date().getFullYear() - 1888)
+      expect(parsed.ageInYears).to.equal(127)
+    })
+
+    it("Should parse valid, female 0 years, born on 31.12.2015", () => {
+      MockDate.set('1/1/2016');
+      var parsed = finnishSSN.parse('311215A000J')
+      expect(parsed.valid).to.equal(true)
+      expect(parsed.sex).to.equal(finnishSSN.FEMALE)
+      expect(parsed.dateOfBirth.getFullYear()).to.equal(2015)
+      expect(parsed.dateOfBirth.getMonth() + 1).to.equal(12)
+      expect(parsed.dateOfBirth.getDate()).to.equal(31)
+      expect(parsed.ageInYears).to.equal(0)
     })
 
     it("Should detect invalid SSN, lowercase checksum char", () => {
+      MockDate.set('2/2/2015');
       var parsed = finnishSSN.parse('311210A540n')
       expect(parsed.valid).to.equal(false)
       expect(parsed.sex).to.be.null
@@ -147,8 +159,10 @@ describe("finnishSSN", () => {
       expect(parsed.ageInYears).to.be.null
     })
 
-    it("Should detect invalid SSN with invalid checksum", () => {
+    it("Should detect invalid SSN with invalid checksum born 17.8.1995", () => {
+      MockDate.set('12/12/2015');
       var parsed = finnishSSN.parse('170895-951K')
+      expect(parsed.valid).to.equal(false)
       expect(parsed.sex).to.equal(finnishSSN.MALE)
       expect(parsed.dateOfBirth.getFullYear()).to.equal(1995)
       expect(parsed.dateOfBirth.getMonth() + 1).to.equal(8)

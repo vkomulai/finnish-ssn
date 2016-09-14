@@ -4,9 +4,6 @@ Finnish SSN validation and creation
 [![Build Status](https://travis-ci.org/vkomulai/finnish-ssn.svg?branch=master)](https://travis-ci.org/vkomulai/finnish-ssn) ![0 deps](https://david-dm.org/vkomulai/finnish-ssn.svg) ![Downloads](https://img.shields.io/npm/dt/finnish-ssn.svg) ![License](https://img.shields.io/npm/l/finnish-ssn.svg)
 
 
-
-
-
 - A micro Javascript library for validating and creating Finnish social security numbers
 - Lightweight, 1.5kB
 - No dependencies
@@ -160,6 +157,9 @@ gulp
 Future development
 ------------------
 - ES6 conversion
+- ESLint
+- FlowType
+- Gulp --> npm scripts
 - Use a better js doc tool
 
 License
