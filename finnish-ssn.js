@@ -150,4 +150,4 @@
   global.FEMALE = FEMALE
   global.MALE = MALE
 
-}((typeof exports === 'undefined') ? (FinnishSSN = {}) : exports))
+}((typeof exports === "undefined") ? (FinnishSSN = {}) : exports))

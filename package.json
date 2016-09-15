@@ -15,10 +15,13 @@
   "scripts": {
     "test": "gulp test",
     "travis-lint": "./node_modules/.bin/travis-lint .travis.yml",
+    "lint": "./node_modules/.bin/eslint finnish-ssn.js test/*.js",
     "validate": "npm ls"
   },
   "devDependencies": {
+    "babel-eslint": "^6.1.2",
     "chai": "^3.0.0",
+    "eslint": "^3.5.0",
     "gulp": "^3.9.0",
     "gulp-coverage": "^0.3.36",
     "gulp-eslint": "^1.0.0",
@@ -40,6 +43,7 @@
   },
   "pre-commit": [
     "test",
+    "lint",
     "travis-lint"
   ]
 }

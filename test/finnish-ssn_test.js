@@ -1,14 +1,14 @@
 "use strict"
 var finnishSSN = require("../finnish-ssn"),
     expect = require("chai").expect,
-    MockDate = require('mockdate')
+    MockDate = require("mockdate")
 
 
 describe("finnishSSN", () => {
 
   describe("#validate", () => {
     it("Should fail when given empty String", () => {
-      expect(finnishSSN.validate('')).to.equal(false)
+      expect(finnishSSN.validate("")).to.equal(false)
     })
     it("Should fail when given undefined", () => {
       expect(finnishSSN.validate(undefined)).to.equal(false)
@@ -17,23 +17,23 @@ describe("finnishSSN", () => {
       expect(finnishSSN.validate(null)).to.equal(false)
     })
     it("Should fail when given birthdate with month out of bounds", () => {
-      expect(finnishSSN.validate('301398-1233')).to.equal(false)
+      expect(finnishSSN.validate("301398-1233")).to.equal(false)
     })
 
     it("Should fail when given birthdate with date out of bounds in January", () => {
-      expect(finnishSSN.validate('320198-123P')).to.equal(false)
+      expect(finnishSSN.validate("320198-123P")).to.equal(false)
     })
 
     it("Should fail when given birthdate with date out of bounds in February, non leap year", () => {
-      expect(finnishSSN.validate('290299-123U')).to.equal(false)
+      expect(finnishSSN.validate("290299-123U")).to.equal(false)
     })
 
     it("Should fail when given birth date with date out of bounds in February, a leap year", () => {
-      expect(finnishSSN.validate('300204-123Y')).to.equal(false)
+      expect(finnishSSN.validate("300204-123Y")).to.equal(false)
     })
 
     it("Should fail when given birth date with alphabets", () => {
-      expect(finnishSSN.validate('0101AA-123A')).to.equal(false)
+      expect(finnishSSN.validate("0101AA-123A")).to.equal(false)
     })
 
     it("Should fail when given invalid separator chars", () => {
@@ -45,59 +45,59 @@ describe("finnishSSN", () => {
     })
 
     it("Should fail when given too long date", () => {
-      expect(finnishSSN.validate('01011995+433X')).to.equal(false)
+      expect(finnishSSN.validate("01011995+433X")).to.equal(false)
     })
 
     it("Should fail when given too short date", () => {
-      expect(finnishSSN.validate('01015+433X')).to.equal(false)
+      expect(finnishSSN.validate("01015+433X")).to.equal(false)
     })
 
     it("Should fail when given too long checksum part", () => {
-      expect(finnishSSN.validate('010195+4433X')).to.equal(false)
+      expect(finnishSSN.validate("010195+4433X")).to.equal(false)
     })
 
     it("Should fail when given too long checksum part", () => {
-      expect(finnishSSN.validate('010195+33X')).to.equal(false)
+      expect(finnishSSN.validate("010195+33X")).to.equal(false)
     })
 
     it("Should pass when given valid finnishSSN from 19th century", () => {
-      expect(finnishSSN.validate('010195+433X')).to.equal(true)
+      expect(finnishSSN.validate("010195+433X")).to.equal(true)
     })
 
     it("Should pass when given valid finnishSSN from 20th century", () => {
-      expect(finnishSSN.validate('010197+100P')).to.equal(true)
+      expect(finnishSSN.validate("010197+100P")).to.equal(true)
     })
 
     it("Should pass when given valid finnishSSN from 21st century", () => {
-      expect(finnishSSN.validate('010114A173M')).to.equal(true)
+      expect(finnishSSN.validate("010114A173M")).to.equal(true)
     })
 
     it("Should pass when given valid finnishSSN with leap year, divisible only by 4", () => {
-      expect(finnishSSN.validate('290296-7808')).to.equal(true)
+      expect(finnishSSN.validate("290296-7808")).to.equal(true)
     })
 
     it("Should fail when given valid finnishSSN with leap year, divisible by 100 and not by 400", () => {
-      expect(finnishSSN.validate('290200-101P')).to.equal(false)
+      expect(finnishSSN.validate("290200-101P")).to.equal(false)
     })
 
     it("Should fail when given SSN longer than 11 chars, bogus in the end", () => {
-      expect(finnishSSN.validate('010114A173M ')).to.equal(false)
+      expect(finnishSSN.validate("010114A173M ")).to.equal(false)
     })
 
     it("Should fail when given SSN longer than 11 chars, bogus in the beginning", () => {
-      expect(finnishSSN.validate(' 010114A173M')).to.equal(false)
+      expect(finnishSSN.validate(" 010114A173M")).to.equal(false)
     })
 
     it("Should pass when given valid finnishSSN with leap year, divisible by 100 and by 400", () => {
-      expect(finnishSSN.validate('290200A248A')).to.equal(true)
+      expect(finnishSSN.validate("290200A248A")).to.equal(true)
     })
   })
 
   describe("#parse", () => {
 
     it("Should parse valid, male, born on leap year day 29.2.2000", () => {
-      MockDate.set('2/2/2015');
-      var parsed = finnishSSN.parse('290200A717E')
+      MockDate.set("2/2/2015");
+      var parsed = finnishSSN.parse("290200A717E")
       expect(parsed.valid).to.equal(true)
       expect(parsed.sex).to.equal(finnishSSN.MALE)
       expect(parsed.dateOfBirth.getFullYear()).to.equal(2000)
@@ -107,8 +107,8 @@ describe("finnishSSN", () => {
     })
 
     it("Should parse valid, female, born on 01.01.1999", () => {
-      MockDate.set('2/2/2015');
-      var parsed = finnishSSN.parse('010199-8148')
+      MockDate.set("2/2/2015");
+      var parsed = finnishSSN.parse("010199-8148")
       expect(parsed.valid).to.equal(true)
       expect(parsed.sex).to.equal(finnishSSN.FEMALE)
       expect(parsed.dateOfBirth.getFullYear()).to.equal(1999)
@@ -118,8 +118,8 @@ describe("finnishSSN", () => {
     })
 
     it("Should parse valid, female, born on 31.12.2010", () => {
-      MockDate.set('2/2/2015');
-      var parsed = finnishSSN.parse('311210A540N')
+      MockDate.set("2/2/2015");
+      var parsed = finnishSSN.parse("311210A540N")
       expect(parsed.valid).to.equal(true)
       expect(parsed.sex).to.equal(finnishSSN.FEMALE)
       expect(parsed.dateOfBirth.getFullYear()).to.equal(2010)
@@ -129,8 +129,8 @@ describe("finnishSSN", () => {
     })
 
     it("Should parse valid, male, born on 2.2.1888, having a birthday today", () => {
-      MockDate.set('2/2/2015');
-      var parsed = finnishSSN.parse('020288+9818')
+      MockDate.set("2/2/2015");
+      var parsed = finnishSSN.parse("020288+9818")
       expect(parsed.valid).to.equal(true)
       expect(parsed.sex).to.equal(finnishSSN.MALE)
       expect(parsed.dateOfBirth.getFullYear()).to.equal(1888)
@@ -140,8 +140,8 @@ describe("finnishSSN", () => {
     })
 
     it("Should parse valid, female 0 years, born on 31.12.2015", () => {
-      MockDate.set('1/1/2016');
-      var parsed = finnishSSN.parse('311215A000J')
+      MockDate.set("1/1/2016");
+      var parsed = finnishSSN.parse("311215A000J")
       expect(parsed.valid).to.equal(true)
       expect(parsed.sex).to.equal(finnishSSN.FEMALE)
       expect(parsed.dateOfBirth.getFullYear()).to.equal(2015)
@@ -151,8 +151,8 @@ describe("finnishSSN", () => {
     })
 
     it("Should detect invalid SSN, lowercase checksum char", () => {
-      MockDate.set('2/2/2015');
-      var parsed = finnishSSN.parse('311210A540n')
+      MockDate.set("2/2/2015");
+      var parsed = finnishSSN.parse("311210A540n")
       expect(parsed.valid).to.equal(false)
       expect(parsed.sex).to.be.null
       expect(parsed.dateOfBirth).to.be.null
@@ -160,8 +160,8 @@ describe("finnishSSN", () => {
     })
 
     it("Should detect invalid SSN with invalid checksum born 17.8.1995", () => {
-      MockDate.set('12/12/2015');
-      var parsed = finnishSSN.parse('170895-951K')
+      MockDate.set("12/12/2015");
+      var parsed = finnishSSN.parse("170895-951K")
       expect(parsed.valid).to.equal(false)
       expect(parsed.sex).to.equal(finnishSSN.MALE)
       expect(parsed.dateOfBirth.getFullYear()).to.equal(1995)
@@ -171,7 +171,7 @@ describe("finnishSSN", () => {
     })
 
     it("Should detect invalid SSN with month out of bounds", () => {
-      var parsed = finnishSSN.parse('301398-1233')
+      var parsed = finnishSSN.parse("301398-1233")
       expect(parsed.valid).to.equal(false)
       expect(parsed.sex).to.be.null
       expect(parsed.dateOfBirth).to.be.null
@@ -179,7 +179,7 @@ describe("finnishSSN", () => {
     })
 
     it("Should detect invalid SSN with day of month out of bounds", () => {
-      var parsed = finnishSSN.parse('330198-123X')
+      var parsed = finnishSSN.parse("330198-123X")
       expect(parsed.valid).to.equal(false)
       expect(parsed.sex).to.be.null
       expect(parsed.dateOfBirth).to.be.null
@@ -201,21 +201,21 @@ describe("finnishSSN", () => {
     })
 
     it("Should create valid finnishSSN for 21st century", () => {
-      MockDate.set('2/2/2015');
+      MockDate.set("2/2/2015");
       var age = 3,
-          birthYear = '12'
+          birthYear = "12"
       expect(finnishSSN.createWithAge(age)).to.match(new RegExp("0101" + birthYear + "A[\\d]{3}[A-Z0-9]"))
     })
 
     it("Should create valid finnishSSN for 20th century", () => {
-      MockDate.set('2/2/2015');
+      MockDate.set("2/2/2015");
       var age = 20,
-          birthYear = '95'
+          birthYear = "95"
       expect(finnishSSN.createWithAge(age)).to.match(new RegExp("0101" + birthYear + "-[\\d]{3}[A-Z0-9]"))
     })
 
     it("Should create valid finnishSSN for 19th century", () => {
-      MockDate.set('2/2/2015');
+      MockDate.set("2/2/2015");
 
       var age = 125,
           birthYear = (new Date().getFullYear() - age) % 100
@@ -233,7 +233,7 @@ describe("finnishSSN", () => {
     })
 
     it("Should create valid finnishSSN for year 1990", () => {
-      MockDate.set('2/2/2015');
+      MockDate.set("2/2/2015");
       var age = 25
       expect(finnishSSN.createWithAge(age)).to.match(new RegExp("010190-[\\d]{3}[A-Z0-9]"))
     })
