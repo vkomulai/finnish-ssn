@@ -55,7 +55,7 @@
         year = parseInt(ssn.substring(4, 6), 10) + centuryMap[centuryId],
         rollingId = ssn.substring(7, 10),
         checksum = ssn.substring(10, 11),
-        sex =  parseInt(rollingId, 10) % 2 ? "male" : "female",
+        sex = parseInt(rollingId, 10) % 2 ? "male" : "female",
         daysInMonth = daysInMonthMap[month]
 
     if (month === february && isLeapYear(year)) {
@@ -99,8 +99,8 @@
       throw "Given age (" + age + ") is not between sensible age range of " + MIN_AGE + " and " + MAX_AGE
     }
     var today = new Date(),
-        year =  today.getFullYear() - age,
-        month =  "01",  //  For simplicity
+        year = today.getFullYear() - age,
+        month = "01",  //  For simplicity
         dayOfMonth = "01",//  For simplicity
         centurySign,
         checksumBase,
@@ -124,7 +124,7 @@
     checksum = checksumTable[checksumBase % 31]
 
     return dayOfMonth +
-           month  +
+           month +
            year +
            centurySign +
            rollingId +
