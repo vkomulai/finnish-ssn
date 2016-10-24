@@ -36,7 +36,7 @@ Usage
 ES6
 
 ``` js
-import finnishSSN from "../finnish-ssn"
+import FinnishSSN from "../finnish-ssn"
 const isValid = FinnishSSN.validate('010101-100X');
 console.log(isValid);
 //  Yields true
@@ -75,7 +75,7 @@ Parse SSN
 
 ``` js
 //  This is valid SSN
-var parsedSsn =  FinnishSSN.parse('290296-7808'));
+var parsedSsn =  FinnishSSN.parse('290296-7808');
 //  This is invalid SSN
 console.log(parsedSsn);
 {
