@@ -150,6 +150,24 @@ describe("finnishSSN", () => {
       expect(parsed.ageInYears).to.equal(0)
     })
 
+    it("Should parse age properly when birthdate is before current date", () => {
+      MockDate.set("01/13/2017")
+      const parsed = finnishSSN.parse("130195-1212")
+      expect(parsed.ageInYears).to.equal(22)
+    })
+
+    it("Should parse age properly when birthdate is on current date", () => {
+      MockDate.set("01/13/2017")
+      const parsed = finnishSSN.parse("130195-1212")
+      expect(parsed.ageInYears).to.equal(22)
+    })
+
+    it("Should parse age properly when birthdate is after current date", () => {
+      MockDate.set("01/13/2017")
+      const parsed = finnishSSN.parse("150295-1212")
+      expect(parsed.ageInYears).to.equal(21)
+    })
+
     it("Should detect invalid SSN, lowercase checksum char", () => {
       MockDate.set("2/2/2015")
       const parsed = finnishSSN.parse("311210A540n")

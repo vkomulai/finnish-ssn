@@ -170,11 +170,11 @@
   }
 
   function ageInYears(dateOfBirth, today) {
-    return today.getFullYear() - dateOfBirth.getFullYear() - (birthDayPassed(dateOfBirth, today) ? 1 : 0);
+    return today.getFullYear() - dateOfBirth.getFullYear() - (birthDayPassed(dateOfBirth, today) ? 0 : 1);
   }
 
   function birthDayPassed(dateOfBirth, today) {
-    return dateOfBirth.getMonth() >= today.getMonth() && dateOfBirth.getDate() > today.getDate();
+    return dateOfBirth.getMonth() < today.getMonth() || dateOfBirth.getMonth() === today.getMonth() && dateOfBirth.getDate() <= today.getDate();
   }
   module.exports = exports["default"];
 });

@@ -145,6 +145,9 @@ npm run test:watch
 
 Changelog
 ---------
+### 1.1.1
+- FIXED: [Issue 6: Bug in calculating age](https://github.com/vkomulai/finnish-ssn/issues/6)
+
 ### 1.1.0
 - Sources ported from ES5 --> ES6
 - Distributed js is transpiled to ES5 for backwards compatibility
