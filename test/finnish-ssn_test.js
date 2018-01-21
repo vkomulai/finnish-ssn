@@ -222,14 +222,14 @@ describe("finnishSSN", () => {
       MockDate.set("2/2/2015")
       const age = 3,
           birthYear = "12"
-      expect(finnishSSN.createWithAge(age)).to.match(new RegExp("0101" + birthYear + "A[\\d]{3}[A-Z0-9]"))
+      expect(finnishSSN.createWithAge(age)).to.match(new RegExp("\\d{4}" + birthYear + "A[\\d]{3}[A-Z0-9]"))
     })
 
     it("Should create valid finnishSSN for 20th century", () => {
       MockDate.set("2/2/2015")
       const age = 20,
           birthYear = "95"
-      expect(finnishSSN.createWithAge(age)).to.match(new RegExp("0101" + birthYear + "-[\\d]{3}[A-Z0-9]"))
+      expect(finnishSSN.createWithAge(age)).to.match(new RegExp("\\d{4}" + birthYear + "-[\\d]{3}[A-Z0-9]"))
     })
 
     it("Should create valid finnishSSN for 19th century", () => {
@@ -237,23 +237,71 @@ describe("finnishSSN", () => {
 
       const age = 125,
           birthYear = (new Date().getFullYear() - age) % 100
-      expect(finnishSSN.createWithAge(age)).to.match(new RegExp("0101" + birthYear + "\\+[\\d]{3}[A-Z0-9]"))
+      expect(finnishSSN.createWithAge(age)).to.match(new RegExp("\\d{4}" + birthYear + "\\+[\\d]{3}[A-Z0-9]"))
     })
 
     it("Should createWithAge valid finnishSSN for year 2000", () => {
       const age = new Date().getFullYear() - 2000
-      expect(finnishSSN.createWithAge(age)).to.match(new RegExp("010100A[\\d]{3}[A-Z0-9]"))
+      expect(finnishSSN.createWithAge(age)).to.match(new RegExp("\\d{4}00A[\\d]{3}[A-Z0-9]"))
     })
 
     it("Should create valid finnishSSN for year 1999", () => {
       const age = new Date().getFullYear() - 1999
-      expect(finnishSSN.createWithAge(age)).to.match(new RegExp("010199-[\\d]{3}[A-Z0-9]"))
+      expect(finnishSSN.createWithAge(age)).to.match(new RegExp("\\d{4}99-[\\d]{3}[A-Z0-9]"))
     })
 
     it("Should create valid finnishSSN for year 1990", () => {
       MockDate.set("2/2/2015")
       const age = 25
-      expect(finnishSSN.createWithAge(age)).to.match(new RegExp("010190-[\\d]{3}[A-Z0-9]"))
+      expect(finnishSSN.createWithAge(age)).to.match(new RegExp("\\d{4}90-[\\d]{3}[A-Z0-9]"))
+    })
+
+    it("Should create random birth dates", () => {
+      const getDayAndMonth = (ssn) => ssn.substr(0, 4)
+
+      const ssnsToCompare = 10,
+        age = 50
+
+      const referenceBirthDate = getDayAndMonth(finnishSSN.createWithAge(age))
+      let i = 0,
+        differenceFound = false
+
+      do {
+        const birthDate = getDayAndMonth(finnishSSN.createWithAge(age))
+        differenceFound = (referenceBirthDate !== birthDate)
+        i++
+      } while (!differenceFound && i < ssnsToCompare)
+
+      expect(differenceFound).to.be.true
+    })
+
+    it("Should create valid birth dates", () => {
+      const isLeapYear = (year) => ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0)
+
+      const
+        centuryMap = {"A": 2000, "-": 1900, "+": 1800},
+        daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+        ssnsToGenerate = 1000,
+        age = 40
+
+      for (let i = 0; i < ssnsToGenerate; i++) {
+        const ssn = finnishSSN.createWithAge(age)
+
+        const month = parseInt(ssn.substr(2, 2), 10)
+        expect(month).to.satisfy(m => (m >= 1 && m <= 12), "Month not between 1 and 12")
+
+        const day = parseInt(ssn.substr(0, 2), 10)
+
+        let daysInMonthMax = daysInMonth[month - 1]
+        if (month === 2) {
+          const centuryChar = ssn.substr(6, 1)
+          const year = centuryMap[centuryChar] + parseInt(ssn.substr(4, 2), 10)
+          if (isLeapYear(year)) {
+            daysInMonthMax++
+          }
+        }
+        expect(day).to.satisfy(d => (d >= 1 && d <= daysInMonthMax), "Day not between 1 and month's maximum")
+      }
     })
   })
 
