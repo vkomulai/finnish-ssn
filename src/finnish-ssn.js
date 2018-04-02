@@ -89,7 +89,11 @@ export default class FinnishSSN {
       }
     }
 
-    year = (today.getFullYear() - age) % 100
+    if (!birthDayPassed(new Date(year, month - 1, dayOfMonth), today)) {
+      year--
+    }
+    year = year % 100
+
     if (year % 100 < 10) {
       year = "0" + year
     }

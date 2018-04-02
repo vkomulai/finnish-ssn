@@ -222,14 +222,14 @@ describe("finnishSSN", () => {
       MockDate.set("2/2/2015")
       const age = 3,
           birthYear = "12"
-      expect(finnishSSN.createWithAge(age)).to.match(new RegExp("\\d{4}" + birthYear + "A[\\d]{3}[A-Z0-9]"))
+      expect(finnishSSN.createWithAge(age)).to.match(new RegExp("\\d{4}1[12]A[\\d]{3}[A-Z0-9]"))
     })
 
     it("Should create valid finnishSSN for 20th century", () => {
       MockDate.set("2/2/2015")
       const age = 20,
           birthYear = "95"
-      expect(finnishSSN.createWithAge(age)).to.match(new RegExp("\\d{4}" + birthYear + "-[\\d]{3}[A-Z0-9]"))
+      expect(finnishSSN.createWithAge(age)).to.match(new RegExp("\\d{4}9[45]-[\\d]{3}[A-Z0-9]"))
     })
 
     it("Should create valid finnishSSN for 19th century", () => {
@@ -237,21 +237,23 @@ describe("finnishSSN", () => {
 
       const age = 125,
           birthYear = (new Date().getFullYear() - age) % 100
-      expect(finnishSSN.createWithAge(age)).to.match(new RegExp("\\d{4}" + birthYear + "\\+[\\d]{3}[A-Z0-9]"))
+      expect(finnishSSN.createWithAge(age)).to.match(new RegExp("\\d{4}[(89)|(90)]\\+[\\d]{3}[A-Z0-9]"))
     })
 
     it("Should createWithAge valid finnishSSN for year 2000", () => {
+      MockDate.set("12/31/2015")
       const age = new Date().getFullYear() - 2000
       expect(finnishSSN.createWithAge(age)).to.match(new RegExp("\\d{4}00A[\\d]{3}[A-Z0-9]"))
     })
 
     it("Should create valid finnishSSN for year 1999", () => {
+      MockDate.set("12/31/2015")
       const age = new Date().getFullYear() - 1999
       expect(finnishSSN.createWithAge(age)).to.match(new RegExp("\\d{4}99-[\\d]{3}[A-Z0-9]"))
     })
 
     it("Should create valid finnishSSN for year 1990", () => {
-      MockDate.set("2/2/2015")
+      MockDate.set("12/31/2015")
       const age = 25
       expect(finnishSSN.createWithAge(age)).to.match(new RegExp("\\d{4}90-[\\d]{3}[A-Z0-9]"))
     })
@@ -303,6 +305,17 @@ describe("finnishSSN", () => {
         expect(day).to.satisfy(d => (d >= 1 && d <= daysInMonthMax), "Day not between 1 and month's maximum")
       }
     })
-  })
 
+    it("Should create random birth dates with correct (i.e. given) age", () => {
+      const
+        age = 25,
+        ssnsToGenerate = 100
+
+      for (let i = 0; i < ssnsToGenerate; i++) {
+        const ssn = finnishSSN.createWithAge(age)
+        const generatedAge = finnishSSN.parse(ssn).ageInYears
+        expect(generatedAge).to.equal(age)
+      }
+    })
+  })
 })
