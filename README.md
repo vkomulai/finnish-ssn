@@ -145,6 +145,8 @@ npm run test:watch
 
 Changelog
 ---------
+### 1.2.0
+- Generate SSNs with random month and day for given age. Also takes into account whether the randomized birth date has already passed and adjusts birth year accordingly, so that the returned SSN really has the given age on the day of generation.
 ### 1.1.1
 - FIXED: [Issue 6: Bug in calculating age](https://github.com/vkomulai/finnish-ssn/issues/6)
 

@@ -1,9 +1,12 @@
 {
   "name": "finnish-ssn",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "license": "MIT",
   "description": "Small utility for validating and creating Finnish social security numbers. No more, no less, no dependencies.",
   "author": "Ville Komulainen",
+  "contributors": [
+    "Mika Viljanen https://github.com/mjviljan"
+  ],
   "main": "dist/finnish-ssn.js",
   "keywords": [
     "Finnish",

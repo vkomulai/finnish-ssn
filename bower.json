@@ -1,7 +1,7 @@
 {
   "name": "finnish-ssn",
   "main": "dist/finnish-ssn.js",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "authors": [
     "vkomulai <ville.komulainen@iki.fi>"
   ],
