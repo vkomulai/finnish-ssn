@@ -35,11 +35,7 @@ export default class FinnishSSN {
           rollingId = ssn.substring(7, 10),
           checksum = ssn.substring(10, 11),
           sex = parseInt(rollingId, 10) % 2 ? this.MALE : this.FEMALE
-    let daysInMonth = daysInMonthMap[month]
-
-    if (month === february && isLeapYear(year)) {
-      daysInMonth++
-    }
+    const daysInMonth = daysInGivenMonth(year, month)
 
     if (!daysInMonthMap.hasOwnProperty(month) || dayOfMonth > daysInMonth) {
       return parseFailedObj
@@ -79,12 +75,12 @@ export default class FinnishSSN {
     }
     let today = new Date(),
         year = today.getFullYear() - age,
-        month = "01",  //  For simplicity
-        dayOfMonth = "01",//  For simplicity
+        month = randomMonth(),
+        dayOfMonth = randomDay(year, month),
         centurySign,
         checksumBase,
         checksum,
-        rollingId = 100 + Math.floor((Math.random() * 799))  //  No need for padding when rollingId >= 100
+        rollingId = 99 + randomNumber(800)  //  No need for padding when rollingId >= 100
 
 
     for (let centuryChar in centuryMap) {
@@ -93,7 +89,11 @@ export default class FinnishSSN {
       }
     }
 
-    year = (today.getFullYear() - age) % 100
+    if (!birthDayPassed(new Date(year, month - 1, dayOfMonth), today)) {
+      year--
+    }
+    year = year % 100
+
     if (year % 100 < 10) {
       year = "0" + year
     }
@@ -136,6 +136,24 @@ const
   MAX_AGE = 200,
   SSN_REGEX = /^[0-3][\d][0-1][0-9][0-9]{2}[+\-A][\d]{3}[\dA-Z]$/
 
+
+function randomMonth() {
+  return ("00" + randomNumber(12)).substr(-2, 2)
+}
+
+function randomDay(year, month) {
+  const maxDaysInMonth = daysInGivenMonth(year, month)
+  return ("00" + randomNumber(maxDaysInMonth)).substr(-2, 2)
+}
+
+function daysInGivenMonth(year, month) {
+  const daysInMonth = daysInMonthMap[month]
+  return (month === february && isLeapYear(year)) ? daysInMonth + 1 : daysInMonth
+}
+
+function randomNumber(max) {
+  return Math.floor(Math.random() * max) + 1 // no zero
+}
 
 function isLeapYear(year) {
   return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0)
