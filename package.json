@@ -7,8 +7,8 @@
   "contributors": [
     "Mika Viljanen https://github.com/mjviljan"
   ],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/src/finnish_ssn.js",
+  "types": "dist/src/finnish_ssn.d.ts",
   "keywords": [
     "Finnish",
     "SSN",
@@ -17,15 +17,17 @@
     "Sotu"
   ],
   "scripts": {
-    "dist": "./node_modules/.bin/babel src/finnish-ssn.js > dist/finnish-ssn.js && ./node_modules/.bin/uglifyjs dist/finnish-ssn.js > dist/finnish-ssn.min.js",
+    "dist": "tsc && node-minify --compressor babel-minify --input dist/finnish-ssn.js --output dist/finnish-ssn.min.js ",
     "test": "mocha -r ts-node/register test/finnish-ssn_test.ts",
     "test:watch": "mocha -r ts-node/register --watch test/finnish-ssn_test.ts",
     "travis-lint": "./node_modules/.bin/travis-lint .travis.yml",
-    "lint": "./node_modules/.bin/eslint finnish-ssn.js test/*.js",
+    "lint": "tslint src/*.ts test/*.ts",
     "prepublish": "npm run test && npm run dist",
     "validate": "npm ls"
   },
   "devDependencies": {
+    "@node-minify/babel-minify": "^4.0.5",
+    "@node-minify/cli": "^4.1.0",
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.6",
     "@types/mockdate": "^2.0.0",
@@ -52,6 +54,5 @@
     "test",
     "lint",
     "travis-lint"
-  ],
-  "dependencies": {}
+  ]
 }
