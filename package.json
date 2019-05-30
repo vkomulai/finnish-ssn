@@ -7,8 +7,8 @@
   "contributors": [
     "Mika Viljanen https://github.com/mjviljan"
   ],
-  "main": "dist/src/finnish_ssn.js",
-  "types": "dist/src/finnish_ssn.d.ts",
+  "main": "dist/finnish_ssn.js",
+  "types": "dist/finnish_ssn.d.ts",
   "keywords": [
     "Finnish",
     "SSN",
