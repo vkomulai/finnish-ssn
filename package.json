@@ -1,42 +1,48 @@
 {
   "name": "finnish-ssn",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "license": "MIT",
   "description": "Small utility for validating and creating Finnish social security numbers. No more, no less, no dependencies.",
   "author": "Ville Komulainen",
   "contributors": [
     "Mika Viljanen https://github.com/mjviljan"
   ],
-  "main": "dist/finnish-ssn.js",
+  "main": "dist/src/finnish_ssn.js",
+  "types": "dist/src/finnish_ssn.d.ts",
   "keywords": [
     "Finnish",
     "SSN",
+    "Social Security Number",
     "Validation",
     "Hetu",
-    "Sotu"
+    "Henkilöturvatunnus",
+    "Sotu",
+    "Sosiaaliturvatunnus"
   ],
   "scripts": {
-    "dist": "./node_modules/.bin/babel src/finnish-ssn.js > dist/finnish-ssn.js && ./node_modules/.bin/uglifyjs dist/finnish-ssn.js > dist/finnish-ssn.min.js",
-    "test": "./node_modules/.bin/mocha --compilers js:babel-core/register",
-    "test:watch": "./node_modules/.bin/mocha --compilers js:babel-core/register --watch",
+    "dist": "tsc && node-minify --compressor babel-minify --input dist/finnish-ssn.js --output dist/finnish-ssn.min.js ",
+    "test": "mocha -r ts-node/register test/finnish-ssn_test.ts",
+    "test:watch": "mocha -r ts-node/register --watch test/finnish-ssn_test.ts",
     "travis-lint": "./node_modules/.bin/travis-lint .travis.yml",
-    "lint": "./node_modules/.bin/eslint finnish-ssn.js test/*.js",
-    "prepublish": "npm run test && npm run dist",
-    "validate": "npm ls"
+    "lint": "tslint src/*.ts test/*.ts",
+    "prepublish": "npm run test && npm run dist"
   },
   "devDependencies": {
-    "babel-cli": "^6.8.0",
-    "babel-eslint": "^6.1.2",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-plugin-transform-es2015-modules-umd": "^6.8.0",
-    "babel-preset-es2015": "^6.6.0",
-    "babel-preset-stage-0": "^6.5.0",
+    "@node-minify/babel-minify": "^4.0.5",
+    "@node-minify/cli": "^4.1.0",
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.6",
+    "@types/mockdate": "^2.0.0",
     "chai": "^3.0.0",
     "eslint": "^3.5.0",
     "mocha": "^3.1.2",
     "mockdate": "^1.0.4",
     "precommit-hook": "^3.0.0",
     "travis-lint": "^1.0.0",
+    "ts-node": "^8.0.3",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-config-strict": "^1.12.0",
+    "typescript": "^3.4.2",
     "uglify": "^0.1.5"
   },
   "repository": {
