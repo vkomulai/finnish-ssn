@@ -140,11 +140,6 @@ npm run test:watch
 
 - Initial release
 
-## Future development
-
-- FlowType
-- Use a better js doc tool
-
 ## License
 
 [MIT License](LICENSE)
