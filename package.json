@@ -12,9 +12,12 @@
   "keywords": [
     "Finnish",
     "SSN",
+    "Social Security Number",
     "Validation",
     "Hetu",
-    "Sotu"
+    "Henkilöturvatunnus",
+    "Sotu",
+    "Sosiaaliturvatunnus"
   ],
   "scripts": {
     "dist": "tsc && node-minify --compressor babel-minify --input dist/finnish-ssn.js --output dist/finnish-ssn.min.js ",
@@ -22,8 +25,7 @@
     "test:watch": "mocha -r ts-node/register --watch test/finnish-ssn_test.ts",
     "travis-lint": "./node_modules/.bin/travis-lint .travis.yml",
     "lint": "tslint src/*.ts test/*.ts",
-    "prepublish": "npm run test && npm run dist",
-    "validate": "npm ls"
+    "prepublish": "npm run test && npm run dist"
   },
   "devDependencies": {
     "@node-minify/babel-minify": "^4.0.5",
