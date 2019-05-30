@@ -106,9 +106,10 @@ npm run test:watch
 
 ## Changelog
 
-### 2.0.0
+### 2.0.2
 
 - Using TypeScript
+- Minor version in x.y.2 thanks to hazzle with npm publish and artifacts
 
 ### 1.2.0
 
