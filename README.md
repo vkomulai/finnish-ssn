@@ -106,6 +106,10 @@ npm run test:watch
 
 ## Changelog
 
+### 2.0.3
+
+- FIXED: [Issue 6: Wrong SSN validation](https://github.com/vkomulai/finnish-ssn/issues/9)
+
 ### 2.0.2
 
 - Using TypeScript
