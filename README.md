@@ -7,7 +7,7 @@
 ## Installation
 
 ```sh
-npm install finnish-ssn --save
+npm install finnish-ssn-validator --save
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ npm install finnish-ssn --save
 ES6 / TypeScript
 
 ```js
-import { FinnishSSN } from 'finnish-ssn'
+import { FinnishSSN } from 'finnish-ssn-validator'
 const isValid = FinnishSSN.validate('010101-100X')
 console.log(isValid) //  Yields true
 ```
@@ -104,8 +104,10 @@ npm run test:watch
 ```
 
 ## Changelog
-### 1.0.0
+### 1.0.1
+- Updated documentation
 
+### 1.0.0
 - Initial release with latest dependencies and updated code
 
 ## License
