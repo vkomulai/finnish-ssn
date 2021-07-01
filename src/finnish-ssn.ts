@@ -79,8 +79,6 @@ export class FinnishSSN {
     const month = randomMonth()
     const dayOfMonth = randomDay(year, month)
     let centurySign
-    let checksumBase
-    let checksum
     const rollingId = randomNumber(800) + 99 //  No need for padding when rollingId >= 100
 
     centuryMap.forEach((value: number, key: string) => {
@@ -94,8 +92,8 @@ export class FinnishSSN {
     }
     year = year % 100
     const yearString = yearToPaddedString(year)
-    checksumBase = parseInt(dayOfMonth + month + yearString + rollingId, 10)
-    checksum = checksumTable[checksumBase % 31]
+    const checksumBase = parseInt(dayOfMonth + month + yearString + rollingId, 10)
+    const checksum = checksumTable[checksumBase % 31]
 
     return dayOfMonth + month + yearString + centurySign + rollingId + checksum
   }
