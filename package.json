@@ -1,5 +1,5 @@
 {
-  "name": "finnish-ssn",
+  "name": "finnish-ssn-validator",
   "version": "1.0.0",
   "license": "MIT",
   "description": "Small utility for validating and creating Finnish social security numbers. No more, no less, no dependencies.",
