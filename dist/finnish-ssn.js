@@ -14,7 +14,6 @@ class FinnishSSN {
         const dayOfMonth = parseInt(ssn.substring(0, 2), 10);
         const month = ssn.substring(2, 4);
         const centuryId = ssn.charAt(6);
-        // tslint:disable-next-line:no-non-null-assertion
         const year = parseInt(ssn.substring(4, 6), 10) + centuryMap.get(centuryId);
         const rollingId = ssn.substring(7, 10);
         const checksum = ssn.substring(10, 11);
@@ -115,7 +114,6 @@ function randomDay(year, month) {
     return `00${randomNumber(maxDaysInMonth)}`.substr(-2, 2);
 }
 function daysInGivenMonth(year, month) {
-    // tslint:disable-next-line:no-non-null-assertion
     const daysInMonth = daysInMonthMap.get(month);
     return month === february && FinnishSSN.isLeapYear(year) ? daysInMonth + 1 : daysInMonth;
 }
