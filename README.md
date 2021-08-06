@@ -104,6 +104,9 @@ npm run test:watch
 ```
 
 ## Changelog
+### 1.0.2
+- Updated multiple dependencies
+
 ### 1.0.1
 - Updated documentation
 
