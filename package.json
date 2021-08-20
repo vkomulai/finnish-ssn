@@ -41,7 +41,7 @@
     "@typescript-eslint/parser": "^4.29.0",
     "chai": "4.3.4",
     "eslint": "7.32.0",
-    "mocha": "9.0.3",
+    "mocha": "9.1.0",
     "mockdate": "3.0.5",
     "precommit-hook": "3.0.0",
     "ts-node": "10.2.0",
