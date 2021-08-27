@@ -1,6 +1,6 @@
 {
   "extends": [
-    "github>orangitfi/renovate-config"
+    "github>orangitfi/renovate-config",
     ":assignee(AleksiUU)",
     ":reviewer(AleksiUU)"
   ],
