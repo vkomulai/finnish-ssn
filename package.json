@@ -21,7 +21,7 @@
     "Sosiaaliturvatunnus"
   ],
   "engines": {
-    "node": "14.x"
+    "node": ">=14.0.0"
   },
   "scripts": {
     "dist": "tsc && node-minify --compressor babel-minify --input dist/finnish-ssn.js --output dist/finnish-ssn.min.js ",
