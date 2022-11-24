@@ -85,7 +85,17 @@ FinnishSSN.MALE = 'male';
 exports.FinnishSSN = FinnishSSN;
 const centuryMap = new Map();
 centuryMap.set('A', 2000);
+centuryMap.set('B', 2000);
+centuryMap.set('C', 2000);
+centuryMap.set('D', 2000);
+centuryMap.set('E', 2000);
+centuryMap.set('F', 2000);
 centuryMap.set('-', 1900);
+centuryMap.set('U', 1900);
+centuryMap.set('V', 1900);
+centuryMap.set('W', 1900);
+centuryMap.set('X', 1900);
+centuryMap.set('Y', 1900);
 centuryMap.set('+', 1800);
 const february = '02';
 const daysInMonthMap = new Map();
@@ -104,7 +114,7 @@ daysInMonthMap.set('12', 31);
 const checksumTable = '0123456789ABCDEFHJKLMNPRSTUVWXY'.split('');
 const MIN_AGE = 1;
 const MAX_AGE = 200;
-const SSN_REGEX = /^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])([5-9]\d\+|\d\d-|[012]\dA)\d{3}[\dA-Z]$/;
+const SSN_REGEX = /^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])([5-9]\d\+|\d\d[-UVWXY]|[012]\d[ABCDEF])\d{3}[\dA-Z]$/;
 function randomMonth() {
     return `00${randomNumber(12)}`.substr(-2, 2);
 }

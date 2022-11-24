@@ -29,7 +29,7 @@ describe('FinnishSSN', () => {
     })
 
     it('Should fail when given invalid separator chars', () => {
-      const invalidSeparatorChars = 'bcdefghijlmnopqrtsuv1234567890'.split('')
+      const invalidSeparatorChars = 'ghijklmnopqrstz1234567890'.split('')
       invalidSeparatorChars.forEach(invalidChar => {
         expect(FinnishSSN.validate('010195' + invalidChar + '433X')).to.equal(false)
         expect(FinnishSSN.validate('010195' + invalidChar.toUpperCase() + '433X')).to.equal(false)
@@ -57,11 +57,21 @@ describe('FinnishSSN', () => {
     })
 
     it('Should pass when given valid FinnishSSN from 20th century', () => {
-      expect(FinnishSSN.validate('010197+100P')).to.equal(true)
+      expect(FinnishSSN.validate('010197-100P')).to.equal(true)
+      expect(FinnishSSN.validate('010197U100P')).to.equal(true)
+      expect(FinnishSSN.validate('010197V100P')).to.equal(true)
+      expect(FinnishSSN.validate('010197W100P')).to.equal(true)
+      expect(FinnishSSN.validate('010197X100P')).to.equal(true)
+      expect(FinnishSSN.validate('010197Y100P')).to.equal(true)
     })
 
     it('Should pass when given valid FinnishSSN from 21st century', () => {
       expect(FinnishSSN.validate('010114A173M')).to.equal(true)
+      expect(FinnishSSN.validate('010114B173M')).to.equal(true)
+      expect(FinnishSSN.validate('010114C173M')).to.equal(true)
+      expect(FinnishSSN.validate('010114D173M')).to.equal(true)
+      expect(FinnishSSN.validate('010114E173M')).to.equal(true)
+      expect(FinnishSSN.validate('010114F173M')).to.equal(true)
     })
 
     it('Should pass when given valid FinnishSSN with leap year, divisible only by 4', () => {
@@ -201,13 +211,13 @@ describe('FinnishSSN', () => {
     it('Should create valid FinnishSSN for 21st century', () => {
       MockDate.set('2/2/2015')
       const age = 3
-      expect(FinnishSSN.createWithAge(age)).to.match(new RegExp('\\d{4}1[12]A[\\d]{3}[A-Z0-9]'))
+      expect(FinnishSSN.createWithAge(age)).to.match(new RegExp('\\d{4}1[12][ABCDEF][\\d]{3}[A-Z0-9]'))
     })
 
     it('Should create valid FinnishSSN for 20th century', () => {
       MockDate.set('2/2/2015')
       const age = 20
-      expect(FinnishSSN.createWithAge(age)).to.match(new RegExp('\\d{4}9[45]-[\\d]{3}[A-Z0-9]'))
+      expect(FinnishSSN.createWithAge(age)).to.match(new RegExp('\\d{4}9[45][-UVWXY][\\d]{3}[A-Z0-9]'))
     })
 
     it('Should create valid FinnishSSN for 19th century', () => {
@@ -219,19 +229,19 @@ describe('FinnishSSN', () => {
     it('Should createWithAge valid FinnishSSN for year 2000', () => {
       MockDate.set('12/31/2015')
       const age = new Date().getFullYear() - 2000
-      expect(FinnishSSN.createWithAge(age)).to.match(new RegExp('\\d{4}00A[\\d]{3}[A-Z0-9]'))
+      expect(FinnishSSN.createWithAge(age)).to.match(new RegExp('\\d{4}00[ABCDEF][\\d]{3}[A-Z0-9]'))
     })
 
     it('Should create valid FinnishSSN for year 1999', () => {
       MockDate.set('12/31/2015')
       const age = new Date().getFullYear() - 1999
-      expect(FinnishSSN.createWithAge(age)).to.match(new RegExp('\\d{4}99-[\\d]{3}[A-Z0-9]'))
+      expect(FinnishSSN.createWithAge(age)).to.match(new RegExp('\\d{4}99[-UVWXY][\\d]{3}[A-Z0-9]'))
     })
 
     it('Should create valid FinnishSSN for year 1990', () => {
       MockDate.set('12/31/2015')
       const age = 25
-      expect(FinnishSSN.createWithAge(age)).to.match(new RegExp('\\d{4}90-[\\d]{3}[A-Z0-9]'))
+      expect(FinnishSSN.createWithAge(age)).to.match(new RegExp('\\d{4}90[-UVWXY][\\d]{3}[A-Z0-9]'))
     })
 
     it('Should create random birth dates', () => {
@@ -256,8 +266,18 @@ describe('FinnishSSN', () => {
     it('Should create valid birth dates', () => {
       const centuryMap: Map<string, number> = new Map()
       centuryMap.set('A', 2000)
+      centuryMap.set('B', 2000)
+      centuryMap.set('C', 2000)
+      centuryMap.set('D', 2000)
+      centuryMap.set('E', 2000)
+      centuryMap.set('F', 2000)
       centuryMap.set('-', 1900)
-      centuryMap.set('+', 2800)
+      centuryMap.set('U', 1900)
+      centuryMap.set('V', 1900)
+      centuryMap.set('W', 1900)
+      centuryMap.set('X', 1900)
+      centuryMap.set('Y', 1900)
+      centuryMap.set('+', 1800)
       const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
         ssnsToGenerate = 1000,
         age = 40
@@ -269,10 +289,14 @@ describe('FinnishSSN', () => {
         expect(month).to.satisfy((m: number) => m >= 1 && m <= 12, 'Month not between 1 and 12')
 
         const day = parseInt(ssn.substr(0, 2), 10)
-
+        
         let daysInMonthMax = daysInMonth[month - 1]
         if (month === 2) {
           const centuryChar = ssn.substr(6, 1)
+          if (!centuryMap.has(centuryChar)) {
+            console.log(centuryChar)
+            throw new Error("Not valid century character.")
+          }
           const year = centuryMap.get(centuryChar)! + parseInt(ssn.substr(4, 2), 10)
           if (FinnishSSN.isLeapYear(year)) {
             daysInMonthMax++

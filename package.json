@@ -25,7 +25,8 @@
     "test:watch": "mocha -r ts-node/register --watch test/finnish-ssn_test.ts",
     "travis-lint": "./node_modules/.bin/travis-lint .travis.yml",
     "lint": "tslint src/*.ts test/*.ts",
-    "prepublish": "npm run test && npm run dist"
+    "prepublish": "npm run test && npm run dist",
+    "validate": "npm ls"
   },
   "devDependencies": {
     "@node-minify/babel-minify": "^4.0.5",
