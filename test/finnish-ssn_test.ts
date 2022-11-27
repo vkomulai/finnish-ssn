@@ -294,7 +294,6 @@ describe('FinnishSSN', () => {
         if (month === 2) {
           const centuryChar = ssn.substr(6, 1)
           if (!centuryMap.has(centuryChar)) {
-            console.log(centuryChar)
             throw new Error("Not valid century character.")
           }
           const year = centuryMap.get(centuryChar)! + parseInt(ssn.substr(4, 2), 10)
