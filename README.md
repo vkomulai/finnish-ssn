@@ -104,6 +104,9 @@ npm run test:watch
 ```
 
 ## Changelog
+
+### 2.0.0
+- [Reform of personal identity codes](https://dvv.fi/en/reform-of-personal-identity-code)
 ### 1.0.2
 - Updated multiple dependencies
 

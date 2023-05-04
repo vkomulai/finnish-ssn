@@ -58,13 +58,14 @@ class FinnishSSN {
         let year = today.getFullYear() - age;
         const month = randomMonth();
         const dayOfMonth = randomDay(year, month);
-        let centurySign;
         const rollingId = randomNumber(800) + 99; //  No need for padding when rollingId >= 100
+        const possibleCenturySigns = [];
         centuryMap.forEach((value, key) => {
             if (value === Math.floor(year / 100) * 100) {
-                centurySign = key;
+                possibleCenturySigns.push(key);
             }
         });
+        const centurySign = possibleCenturySigns[Math.floor(Math.random() * possibleCenturySigns.length)];
         if (!birthDayPassed(new Date(year, Number(month) - 1, Number(dayOfMonth)), today)) {
             year--;
         }
@@ -82,7 +83,17 @@ exports.FinnishSSN = FinnishSSN;
 FinnishSSN.FEMALE = 'female';
 FinnishSSN.MALE = 'male';
 const centuryMap = new Map();
+centuryMap.set('F', 2000);
+centuryMap.set('E', 2000);
+centuryMap.set('D', 2000);
+centuryMap.set('C', 2000);
+centuryMap.set('B', 2000);
 centuryMap.set('A', 2000);
+centuryMap.set('U', 1900);
+centuryMap.set('V', 1900);
+centuryMap.set('W', 1900);
+centuryMap.set('X', 1900);
+centuryMap.set('Y', 1900);
 centuryMap.set('-', 1900);
 centuryMap.set('+', 1800);
 const february = '02';
@@ -102,7 +113,7 @@ daysInMonthMap.set('12', 31);
 const checksumTable = '0123456789ABCDEFHJKLMNPRSTUVWXY'.split('');
 const MIN_AGE = 1;
 const MAX_AGE = 200;
-const SSN_REGEX = /^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])([5-9]\d\+|\d\d-|[012]\dA)\d{3}[\dA-Z]$/;
+const SSN_REGEX = /^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])([5-9]\d\+|\d\d[-|U-Y]|[012]\d[A-F])\d{3}[\dA-Z]$/;
 function randomMonth() {
     return `00${randomNumber(12)}`.substr(-2, 2);
 }
