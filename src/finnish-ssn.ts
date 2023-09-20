@@ -1,20 +1,20 @@
 'use strict'
-/**
- * Project: finnish-ssn
- * Purpose: Validate and generate Finnish SSN's according to https://fi.wikipedia.org/wiki/Henkil%C3%B6tunnus
- * Author:  Ville Komulainen
- */
+
+enum Sex {
+  FEMALE = 'female',
+  MALE = 'male',
+}
 
 interface SSN {
   valid: boolean
-  sex: string
+  sex: Sex
   ageInYears: number
   dateOfBirth: Date
 }
 
 export class FinnishSSN {
-  public static FEMALE = 'female'
-  public static MALE = 'male'
+  public static FEMALE = Sex.FEMALE
+  public static MALE = Sex.MALE
 
   /**
    * Parse parameter given SSN string into Object representation.
@@ -29,7 +29,6 @@ export class FinnishSSN {
     const dayOfMonth = parseInt(ssn.substring(0, 2), 10)
     const month = ssn.substring(2, 4)
     const centuryId = ssn.charAt(6)
-    // tslint:disable-next-line:no-non-null-assertion
     const year = parseInt(ssn.substring(4, 6), 10) + centuryMap.get(centuryId)!
     const rollingId = ssn.substring(7, 10)
     const checksum = ssn.substring(10, 11)
@@ -48,7 +47,7 @@ export class FinnishSSN {
       valid: checksum === checksumTable[checksumBase % 31],
       sex,
       dateOfBirth,
-      ageInYears: ageInYears(dateOfBirth, today)
+      ageInYears: ageInYears(dateOfBirth, today),
     }
   }
 
@@ -78,24 +77,23 @@ export class FinnishSSN {
     let year = today.getFullYear() - age
     const month = randomMonth()
     const dayOfMonth = randomDay(year, month)
-    let centurySign
-    let checksumBase
-    let checksum
     const rollingId = randomNumber(800) + 99 //  No need for padding when rollingId >= 100
 
+    const possibleCenturySigns: string[] = []
     centuryMap.forEach((value: number, key: string) => {
       if (value === Math.floor(year / 100) * 100) {
-        centurySign = key
+        possibleCenturySigns.push(key)
       }
     })
+    const centurySign = possibleCenturySigns[Math.floor(Math.random() * possibleCenturySigns.length)]
 
     if (!birthDayPassed(new Date(year, Number(month) - 1, Number(dayOfMonth)), today)) {
       year--
     }
     year = year % 100
     const yearString = yearToPaddedString(year)
-    checksumBase = parseInt(dayOfMonth + month + yearString + rollingId, 10)
-    checksum = checksumTable[checksumBase % 31]
+    const checksumBase = parseInt(dayOfMonth + month + yearString + rollingId, 10)
+    const checksum = checksumTable[checksumBase % 31]
 
     return dayOfMonth + month + yearString + centurySign + rollingId + checksum
   }
@@ -106,7 +104,17 @@ export class FinnishSSN {
 }
 
 const centuryMap: Map<string, number> = new Map()
+centuryMap.set('F', 2000)
+centuryMap.set('E', 2000)
+centuryMap.set('D', 2000)
+centuryMap.set('C', 2000)
+centuryMap.set('B', 2000)
 centuryMap.set('A', 2000)
+centuryMap.set('U', 1900)
+centuryMap.set('V', 1900)
+centuryMap.set('W', 1900)
+centuryMap.set('X', 1900)
+centuryMap.set('Y', 1900)
 centuryMap.set('-', 1900)
 centuryMap.set('+', 1800)
 
@@ -129,7 +137,7 @@ const checksumTable: string[] = '0123456789ABCDEFHJKLMNPRSTUVWXY'.split('')
 
 const MIN_AGE = 1
 const MAX_AGE = 200
-const SSN_REGEX = /^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])([5-9]\d\+|\d\d-|[012]\dA)\d{3}[\dA-Z]$/
+const SSN_REGEX = /^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])([5-9]\d\+|\d\d[-|U-Y]|[012]\d[A-F])\d{3}[\dA-Z]$/
 
 function randomMonth(): string {
   return `00${randomNumber(12)}`.substr(-2, 2)
@@ -146,7 +154,6 @@ function randomDay(year: number, month: string): string {
 }
 
 function daysInGivenMonth(year: number, month: string) {
-  // tslint:disable-next-line:no-non-null-assertion
   const daysInMonth = daysInMonthMap.get(month)!
 
   return month === february && FinnishSSN.isLeapYear(year) ? daysInMonth + 1 : daysInMonth
