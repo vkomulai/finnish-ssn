@@ -16,9 +16,9 @@ npm install finnish-ssn --save
 ES6 / TypeScript
 
 ```js
-import { FinnishSSN } from "finnish-ssn";
-const isValid = FinnishSSN.validate("010101-100X");
-console.log(isValid); //  Yields true
+import { FinnishSSN } from 'finnish-ssn'
+const isValid = FinnishSSN.validate('010101-100X')
+console.log(isValid) //  Yields true
 ```
 
 ## Examples
@@ -27,11 +27,11 @@ Validate an SSN
 
 ```js
 //  This is valid SSN
-console.log("valid ssn returns " + FinnishSSN.validate("290296-7808"));
+console.log('valid ssn returns ' + FinnishSSN.validate('290296-7808'))
 //  'valid ssn returns true'
 
 //  This is invalid SSN
-console.log("invalid ssn returns " + FinnishSSN.validate("010198-1000"));
+console.log('invalid ssn returns ' + FinnishSSN.validate('010198-1000'))
 //  'invalid ssn returns false'
 ```
 
@@ -53,9 +53,7 @@ console.log(parsedSsn)
 Create an SSN for person that is 20 years old.
 
 ```js
-console.log(
-  "SSN for person that is 20 years old " + FinnishSSN.createWithAge(20)
-);
+console.log('SSN for person that is 20 years old ' + FinnishSSN.createWithAge(20))
 //  SSN for person that is 20 years old 010195-XXXX
 ```
 
@@ -108,10 +106,11 @@ npm run test:watch
 
 ## Changelog
 
-### 3.0.0
+### 2.1.0
 
 - [Reform of personal identity codes](https://dvv.fi/en/reform-of-personal-identity-code)
 - Dev dependency updates from [finnish-ssn-validator](https://github.com/orangitfi/finnish-ssn-validator)
+- Updated Typescript declaration file to return more specific types
 
 ### 2.0.3
 
