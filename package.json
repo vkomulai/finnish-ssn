@@ -1,12 +1,14 @@
 {
-  "name": "finnish-ssn-validator",
-  "version": "2.0.0",
+  "name": "finnish-ssn",
+  "version": "3.0.0",
   "license": "MIT",
   "description": "Small utility for validating and creating Finnish social security numbers. No more, no less, no dependencies.",
-  "author": "Aleksi Uusitalo",
+  "author": "Ville Komulainen",
   "contributors": [
     "Ville Komulainen https://github.com/vkomulai",
-    "Mika Viljanen https://github.com/mjviljan"
+    "Mika Viljanen https://github.com/mjviljan",
+    "Sebastian Sergelius https://github.com/sebazai",
+    "Aleksi Uusitalo https://github.com/AleksiUu"
   ],
   "main": "dist/finnish-ssn.js",
   "types": "dist/finnish-ssn.d.ts",
@@ -49,10 +51,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/aleksiuu/finnish-ssn"
+    "url": "https://github.com/vkomulai/finnish-ssn"
   },
   "bugs": {
-    "url": "https://github.com/aleksiuu/finnish-ssn/issues"
+    "url": "https://github.com/vkomulai/finnish-ssn/issues"
   },
   "pre-commit": [
     "test",
