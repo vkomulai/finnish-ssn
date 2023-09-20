@@ -1,6 +1,11 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FinnishSSN = void 0;
+var Sex;
+(function (Sex) {
+    Sex["FEMALE"] = "female";
+    Sex["MALE"] = "male";
+})(Sex || (Sex = {}));
 class FinnishSSN {
     /**
      * Parse parameter given SSN string into Object representation.
@@ -29,7 +34,7 @@ class FinnishSSN {
             valid: checksum === checksumTable[checksumBase % 31],
             sex,
             dateOfBirth,
-            ageInYears: ageInYears(dateOfBirth, today)
+            ageInYears: ageInYears(dateOfBirth, today),
         };
     }
     /**
@@ -80,8 +85,8 @@ class FinnishSSN {
     }
 }
 exports.FinnishSSN = FinnishSSN;
-FinnishSSN.FEMALE = 'female';
-FinnishSSN.MALE = 'male';
+FinnishSSN.FEMALE = Sex.FEMALE;
+FinnishSSN.MALE = Sex.MALE;
 const centuryMap = new Map();
 centuryMap.set('F', 2000);
 centuryMap.set('E', 2000);
@@ -126,16 +131,21 @@ function randomDay(year, month) {
 }
 function daysInGivenMonth(year, month) {
     const daysInMonth = daysInMonthMap.get(month);
-    return month === february && FinnishSSN.isLeapYear(year) ? daysInMonth + 1 : daysInMonth;
+    return month === february && FinnishSSN.isLeapYear(year)
+        ? daysInMonth + 1
+        : daysInMonth;
 }
 function randomNumber(max) {
     return Math.floor(Math.random() * max) + 1; // no zero
 }
 function ageInYears(dateOfBirth, today) {
-    return today.getFullYear() - dateOfBirth.getFullYear() - (birthDayPassed(dateOfBirth, today) ? 0 : 1);
+    return (today.getFullYear() -
+        dateOfBirth.getFullYear() -
+        (birthDayPassed(dateOfBirth, today) ? 0 : 1));
 }
 function birthDayPassed(dateOfBirth, today) {
     return (dateOfBirth.getMonth() < today.getMonth() ||
-        (dateOfBirth.getMonth() === today.getMonth() && dateOfBirth.getDate() <= today.getDate()));
+        (dateOfBirth.getMonth() === today.getMonth() &&
+            dateOfBirth.getDate() <= today.getDate()));
 }
 //# sourceMappingURL=finnish-ssn.js.map
