@@ -40,15 +40,7 @@ export class FinnishSSN {
     }
 
     const checksumBase = parseInt(ssn.substring(0, 6) + rollingId, 10)
-    const dateOfBirth = new Date(
-      year,
-      parseInt(month, 10) - 1,
-      dayOfMonth,
-      0,
-      0,
-      0,
-      0,
-    )
+    const dateOfBirth = new Date(year, parseInt(month, 10) - 1, dayOfMonth, 0, 0, 0, 0)
     const today = new Date()
 
     return {
@@ -79,9 +71,7 @@ export class FinnishSSN {
    */
   public static createWithAge(age: number): string {
     if (age < MIN_AGE || age > MAX_AGE) {
-      throw new Error(
-        `Given age (${age}) is not between sensible age range of ${MIN_AGE} and ${MAX_AGE}`,
-      )
+      throw new Error(`Given age (${age}) is not between sensible age range of ${MIN_AGE} and ${MAX_AGE}`)
     }
     const today = new Date()
     let year = today.getFullYear() - age
@@ -95,25 +85,14 @@ export class FinnishSSN {
         possibleCenturySigns.push(key)
       }
     })
-    const centurySign =
-      possibleCenturySigns[
-        Math.floor(Math.random() * possibleCenturySigns.length)
-      ]
+    const centurySign = possibleCenturySigns[Math.floor(Math.random() * possibleCenturySigns.length)]
 
-    if (
-      !birthDayPassed(
-        new Date(year, Number(month) - 1, Number(dayOfMonth)),
-        today,
-      )
-    ) {
+    if (!birthDayPassed(new Date(year, Number(month) - 1, Number(dayOfMonth)), today)) {
       year--
     }
     year = year % 100
     const yearString = yearToPaddedString(year)
-    const checksumBase = parseInt(
-      dayOfMonth + month + yearString + rollingId,
-      10,
-    )
+    const checksumBase = parseInt(dayOfMonth + month + yearString + rollingId, 10)
     const checksum = checksumTable[checksumBase % 31]
 
     return dayOfMonth + month + yearString + centurySign + rollingId + checksum
@@ -158,8 +137,7 @@ const checksumTable: string[] = '0123456789ABCDEFHJKLMNPRSTUVWXY'.split('')
 
 const MIN_AGE = 1
 const MAX_AGE = 200
-const SSN_REGEX =
-  /^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])([5-9]\d\+|\d\d[-|U-Y]|[012]\d[A-F])\d{3}[\dA-Z]$/
+const SSN_REGEX = /^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])([5-9]\d\+|\d\d[-|U-Y]|[012]\d[A-F])\d{3}[\dA-Z]$/
 
 function randomMonth(): string {
   return `00${randomNumber(12)}`.substr(-2, 2)
@@ -178,9 +156,7 @@ function randomDay(year: number, month: string): string {
 function daysInGivenMonth(year: number, month: string) {
   const daysInMonth = daysInMonthMap.get(month)!
 
-  return month === february && FinnishSSN.isLeapYear(year)
-    ? daysInMonth + 1
-    : daysInMonth
+  return month === february && FinnishSSN.isLeapYear(year) ? daysInMonth + 1 : daysInMonth
 }
 
 function randomNumber(max: number): number {
@@ -188,17 +164,12 @@ function randomNumber(max: number): number {
 }
 
 function ageInYears(dateOfBirth: Date, today: Date): number {
-  return (
-    today.getFullYear() -
-    dateOfBirth.getFullYear() -
-    (birthDayPassed(dateOfBirth, today) ? 0 : 1)
-  )
+  return today.getFullYear() - dateOfBirth.getFullYear() - (birthDayPassed(dateOfBirth, today) ? 0 : 1)
 }
 
 function birthDayPassed(dateOfBirth: Date, today: Date): boolean {
   return (
     dateOfBirth.getMonth() < today.getMonth() ||
-    (dateOfBirth.getMonth() === today.getMonth() &&
-      dateOfBirth.getDate() <= today.getDate())
+    (dateOfBirth.getMonth() === today.getMonth() && dateOfBirth.getDate() <= today.getDate())
   )
 }
