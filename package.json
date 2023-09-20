@@ -1,10 +1,11 @@
 {
-  "name": "finnish-ssn",
-  "version": "2.0.4",
+  "name": "finnish-ssn-validator",
+  "version": "2.0.0",
   "license": "MIT",
   "description": "Small utility for validating and creating Finnish social security numbers. No more, no less, no dependencies.",
-  "author": "Ville Komulainen",
+  "author": "Aleksi Uusitalo",
   "contributors": [
+    "Ville Komulainen https://github.com/vkomulai",
     "Mika Viljanen https://github.com/mjviljan"
   ],
   "main": "dist/finnish-ssn.js",
@@ -19,42 +20,42 @@
     "Sotu",
     "Sosiaaliturvatunnus"
   ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "scripts": {
     "dist": "tsc && node-minify --compressor babel-minify --input dist/finnish-ssn.js --output dist/finnish-ssn.min.js ",
     "test": "mocha -r ts-node/register test/finnish-ssn_test.ts",
     "test:watch": "mocha -r ts-node/register --watch test/finnish-ssn_test.ts",
-    "travis-lint": "./node_modules/.bin/travis-lint .travis.yml",
-    "lint": "tslint src/*.ts test/*.ts",
-    "prepublish": "npm run test && npm run dist"
+    "lint": "eslint src/*.ts test/*.ts",
+    "prepublish": "npm run test && npm run dist",
+    "validate": "npm ls"
   },
   "devDependencies": {
-    "@node-minify/babel-minify": "^4.0.5",
-    "@node-minify/cli": "^4.1.0",
-    "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.6",
-    "@types/mockdate": "^2.0.0",
-    "chai": "^3.0.0",
-    "eslint": "^3.5.0",
-    "mocha": "^3.1.2",
-    "mockdate": "^1.0.4",
-    "precommit-hook": "^3.0.0",
-    "travis-lint": "^1.0.0",
-    "ts-node": "^8.0.3",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-config-strict": "^1.12.0",
-    "typescript": "^3.4.2",
-    "uglify": "^0.1.5"
+    "@node-minify/babel-minify": "6.2.0",
+    "@node-minify/cli": "6.2.0",
+    "@types/chai": "4.2.21",
+    "@types/mocha": "9.0.0",
+    "@types/mockdate": "3.0.0",
+    "@typescript-eslint/eslint-plugin": "4.29.0",
+    "@typescript-eslint/parser": "4.29.0",
+    "chai": "4.3.4",
+    "eslint": "7.32.0",
+    "mocha": "9.1.0",
+    "mockdate": "3.0.5",
+    "precommit-hook": "3.0.0",
+    "ts-node": "10.2.0",
+    "typescript": "4.4.2"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/vkomulai/finnish-ssn"
+    "url": "https://github.com/aleksiuu/finnish-ssn"
   },
   "bugs": {
-    "url": "https://github.com/vkomulai/finnish-ssn/issues"
+    "url": "https://github.com/aleksiuu/finnish-ssn/issues"
   },
   "pre-commit": [
     "test",
-    "lint",
-    "travis-lint"
+    "lint"
   ]
 }

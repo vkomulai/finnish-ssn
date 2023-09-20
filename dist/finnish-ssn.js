@@ -1,5 +1,6 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FinnishSSN = void 0;
 class FinnishSSN {
     /**
      * Parse parameter given SSN string into Object representation.
@@ -13,7 +14,6 @@ class FinnishSSN {
         const dayOfMonth = parseInt(ssn.substring(0, 2), 10);
         const month = ssn.substring(2, 4);
         const centuryId = ssn.charAt(6);
-        // tslint:disable-next-line:no-non-null-assertion
         const year = parseInt(ssn.substring(4, 6), 10) + centuryMap.get(centuryId);
         const rollingId = ssn.substring(7, 10);
         const checksum = ssn.substring(10, 11);
@@ -58,33 +58,42 @@ class FinnishSSN {
         let year = today.getFullYear() - age;
         const month = randomMonth();
         const dayOfMonth = randomDay(year, month);
-        let centurySign;
-        let checksumBase;
-        let checksum;
         const rollingId = randomNumber(800) + 99; //  No need for padding when rollingId >= 100
+        const possibleCenturySigns = [];
         centuryMap.forEach((value, key) => {
             if (value === Math.floor(year / 100) * 100) {
-                centurySign = key;
+                possibleCenturySigns.push(key);
             }
         });
+        const centurySign = possibleCenturySigns[Math.floor(Math.random() * possibleCenturySigns.length)];
         if (!birthDayPassed(new Date(year, Number(month) - 1, Number(dayOfMonth)), today)) {
             year--;
         }
         year = year % 100;
         const yearString = yearToPaddedString(year);
-        checksumBase = parseInt(dayOfMonth + month + yearString + rollingId, 10);
-        checksum = checksumTable[checksumBase % 31];
+        const checksumBase = parseInt(dayOfMonth + month + yearString + rollingId, 10);
+        const checksum = checksumTable[checksumBase % 31];
         return dayOfMonth + month + yearString + centurySign + rollingId + checksum;
     }
     static isLeapYear(year) {
         return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
     }
 }
+exports.FinnishSSN = FinnishSSN;
 FinnishSSN.FEMALE = 'female';
 FinnishSSN.MALE = 'male';
-exports.FinnishSSN = FinnishSSN;
 const centuryMap = new Map();
+centuryMap.set('F', 2000);
+centuryMap.set('E', 2000);
+centuryMap.set('D', 2000);
+centuryMap.set('C', 2000);
+centuryMap.set('B', 2000);
 centuryMap.set('A', 2000);
+centuryMap.set('U', 1900);
+centuryMap.set('V', 1900);
+centuryMap.set('W', 1900);
+centuryMap.set('X', 1900);
+centuryMap.set('Y', 1900);
 centuryMap.set('-', 1900);
 centuryMap.set('+', 1800);
 const february = '02';
@@ -104,7 +113,7 @@ daysInMonthMap.set('12', 31);
 const checksumTable = '0123456789ABCDEFHJKLMNPRSTUVWXY'.split('');
 const MIN_AGE = 1;
 const MAX_AGE = 200;
-const SSN_REGEX = /^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])([5-9]\d\+|\d\d-|[012]\dA)\d{3}[\dA-Z]$/;
+const SSN_REGEX = /^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])([5-9]\d\+|\d\d[-|U-Y]|[012]\d[A-F])\d{3}[\dA-Z]$/;
 function randomMonth() {
     return `00${randomNumber(12)}`.substr(-2, 2);
 }
@@ -116,7 +125,6 @@ function randomDay(year, month) {
     return `00${randomNumber(maxDaysInMonth)}`.substr(-2, 2);
 }
 function daysInGivenMonth(year, month) {
-    // tslint:disable-next-line:no-non-null-assertion
     const daysInMonth = daysInMonthMap.get(month);
     return month === february && FinnishSSN.isLeapYear(year) ? daysInMonth + 1 : daysInMonth;
 }
@@ -130,3 +138,4 @@ function birthDayPassed(dateOfBirth, today) {
     return (dateOfBirth.getMonth() < today.getMonth() ||
         (dateOfBirth.getMonth() === today.getMonth() && dateOfBirth.getDate() <= today.getDate()));
 }
+//# sourceMappingURL=finnish-ssn.js.map
