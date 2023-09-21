@@ -124,6 +124,9 @@ describe('FinnishSSN', () => {
   })
 
   describe('#parse', () => {
+    beforeEach(() => {
+      MockDate.reset()
+    })
     it('Should parse valid, male, born on leap year day 29.2.2000', () => {
       MockDate.set('2/2/2015')
       const parsed = FinnishSSN.parse('290200A717E')
@@ -224,6 +227,9 @@ describe('FinnishSSN', () => {
   })
 
   describe('#parse new identity codes', () => {
+    beforeEach(() => {
+      MockDate.reset()
+    })
     it('Should parse valid, male, born on leap year day 29.2.2000', () => {
       MockDate.set('2/2/2015')
       const parsed = FinnishSSN.parse('290200E717E')
@@ -313,6 +319,9 @@ describe('FinnishSSN', () => {
   })
 
   describe('#createWithAge', () => {
+    beforeEach(() => {
+      MockDate.reset()
+    })
     it('Should not accept zero age', () => {
       expect(() => {
         FinnishSSN.createWithAge(0)
@@ -427,6 +436,30 @@ describe('FinnishSSN', () => {
         const generatedAge = FinnishSSN.parse(ssn).ageInYears
         expect(generatedAge).to.equal(age)
       }
+    })
+
+    it('Should set correct centurySign and age when person is (now.year - 2000) birthday has not passed, that is born in 1999', () => {
+      const currentYear = new Date().getFullYear()
+      MockDate.set(`01/01/${currentYear}`)
+      const age = currentYear - 2000
+
+      const ssn = FinnishSSN.createWithAge(age)
+      expect(ssn).to.match(new RegExp('\\d{4}99[-|U-Y][\\d]{3}[A-Z0-9]'))
+      const person = FinnishSSN.parse(ssn)
+      expect(person.ageInYears).to.equal(age)
+      expect(person.dateOfBirth).to.eq
+    })
+
+    it('Should set correct centurySign and age when person is (now.year - 2000) birthday has passed, that is born in 2000', () => {
+      const currentYear = new Date().getFullYear()
+      MockDate.set(`12/31/${currentYear}`)
+      const age = currentYear - 2000
+
+      const ssn = FinnishSSN.createWithAge(age)
+      expect(ssn).to.match(new RegExp('\\d{4}00[A-F][\\d]{3}[A-Z0-9]'))
+      const person = FinnishSSN.parse(ssn)
+      expect(person.ageInYears).to.equal(age)
+      expect(person.dateOfBirth).to.eq
     })
   })
 })

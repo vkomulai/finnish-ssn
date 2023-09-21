@@ -79,6 +79,10 @@ export class FinnishSSN {
     const dayOfMonth = randomDay(year, month)
     const rollingId = randomNumber(800) + 99 //  No need for padding when rollingId >= 100
 
+    if (!birthDayPassed(new Date(year, Number(month) - 1, Number(dayOfMonth)), today)) {
+      year--
+    }
+
     const possibleCenturySigns: string[] = []
     centuryMap.forEach((value: number, key: string) => {
       if (value === Math.floor(year / 100) * 100) {
@@ -87,9 +91,6 @@ export class FinnishSSN {
     })
     const centurySign = possibleCenturySigns[Math.floor(Math.random() * possibleCenturySigns.length)]
 
-    if (!birthDayPassed(new Date(year, Number(month) - 1, Number(dayOfMonth)), today)) {
-      year--
-    }
     year = year % 100
     const yearString = yearToPaddedString(year)
     const checksumBase = parseInt(dayOfMonth + month + yearString + rollingId, 10)
