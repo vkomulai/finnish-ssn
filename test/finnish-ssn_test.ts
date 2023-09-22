@@ -447,7 +447,6 @@ describe('FinnishSSN', () => {
       expect(ssn).to.match(new RegExp('\\d{4}99[-|U-Y][\\d]{3}[A-Z0-9]'))
       const person = FinnishSSN.parse(ssn)
       expect(person.ageInYears).to.equal(age)
-      expect(person.dateOfBirth).to.eq
     })
 
     it('Should set correct centurySign and age when person is (now.year - 2000) birthday has passed, that is born in 2000', () => {
@@ -459,7 +458,6 @@ describe('FinnishSSN', () => {
       expect(ssn).to.match(new RegExp('\\d{4}00[A-F][\\d]{3}[A-Z0-9]'))
       const person = FinnishSSN.parse(ssn)
       expect(person.ageInYears).to.equal(age)
-      expect(person.dateOfBirth).to.eq
     })
   })
 })
