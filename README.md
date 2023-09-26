@@ -106,6 +106,11 @@ npm run test:watch
 
 ## Changelog
 
+### 2.1.1
+
+- FIXED: [Issue 25: NodeJS engine locked to a specific version](https://github.com/vkomulai/finnish-ssn/issues/25)
+- FIXED: [Issue 14: createWithAge can create an invalid SSN](https://github.com/vkomulai/finnish-ssn/issues/14)
+
 ### 2.1.0
 
 - [Reform of personal identity codes](https://dvv.fi/en/reform-of-personal-identity-code)
