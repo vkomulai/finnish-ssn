@@ -1,12 +1,10 @@
 'use strict';
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.FinnishSSN = void 0;
 var Sex;
 (function (Sex) {
     Sex["FEMALE"] = "female";
     Sex["MALE"] = "male";
 })(Sex || (Sex = {}));
-class FinnishSSN {
+export class FinnishSSN {
     /**
      * Parse parameter given SSN string into Object representation.
      * @param ssn - {String} SSN to parse
@@ -56,13 +54,23 @@ class FinnishSSN {
      * @param age as Integer. Min valid age is 1, max valid age is 200
      */
     static createWithAge(age) {
-        if (age < MIN_AGE || age > MAX_AGE) {
-            throw new Error(`Given age (${age}) is not between sensible age range of ${MIN_AGE} and ${MAX_AGE}`);
-        }
         const today = new Date();
         let year = today.getFullYear() - age;
         const month = randomMonth();
         const dayOfMonth = randomDay(year, month);
+        if (!birthDayPassed(new Date(year, Number(month) - 1, Number(dayOfMonth)), today)) {
+            year--;
+        }
+        return this.create(new Date(year, Number(month) - 1, Number(dayOfMonth)));
+    }
+    static create(dateOfBirth) {
+        const age = ageInYears(dateOfBirth, new Date());
+        if (age < MIN_AGE || age > MAX_AGE) {
+            throw new Error(`Given age (${age}) is not between sensible age range of ${MIN_AGE} and ${MAX_AGE}`);
+        }
+        let year = dateOfBirth.getFullYear();
+        const month = (dateOfBirth.getMonth() + 1).toString().padStart(2, '0');
+        const dayOfMonth = dateOfBirth.getDate().toString().padStart(2, '0');
         const rollingId = randomNumber(800) + 99; //  No need for padding when rollingId >= 100
         const possibleCenturySigns = [];
         centuryMap.forEach((value, key) => {
@@ -71,9 +79,6 @@ class FinnishSSN {
             }
         });
         const centurySign = possibleCenturySigns[Math.floor(Math.random() * possibleCenturySigns.length)];
-        if (!birthDayPassed(new Date(year, Number(month) - 1, Number(dayOfMonth)), today)) {
-            year--;
-        }
         year = year % 100;
         const yearString = yearToPaddedString(year);
         const checksumBase = parseInt(dayOfMonth + month + yearString + rollingId, 10);
@@ -84,9 +89,11 @@ class FinnishSSN {
         return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
     }
 }
-exports.FinnishSSN = FinnishSSN;
 FinnishSSN.FEMALE = Sex.FEMALE;
 FinnishSSN.MALE = Sex.MALE;
+if (typeof window !== 'undefined') {
+    window.FinnishSSN = FinnishSSN;
+}
 const centuryMap = new Map();
 centuryMap.set('F', 2000);
 centuryMap.set('E', 2000);

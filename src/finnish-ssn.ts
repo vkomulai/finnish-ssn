@@ -70,18 +70,26 @@ export class FinnishSSN {
    * @param age as Integer. Min valid age is 1, max valid age is 200
    */
   public static createWithAge(age: number): string {
-    if (age < MIN_AGE || age > MAX_AGE) {
-      throw new Error(`Given age (${age}) is not between sensible age range of ${MIN_AGE} and ${MAX_AGE}`)
-    }
     const today = new Date()
     let year = today.getFullYear() - age
     const month = randomMonth()
     const dayOfMonth = randomDay(year, month)
-    const rollingId = randomNumber(800) + 99 //  No need for padding when rollingId >= 100
-
     if (!birthDayPassed(new Date(year, Number(month) - 1, Number(dayOfMonth)), today)) {
       year--
     }
+    return this.create(new Date(year, Number(month) - 1, Number(dayOfMonth)))
+  }
+
+  public static create(dateOfBirth: Date): string {
+    const age = ageInYears(dateOfBirth, new Date())
+    if (age < MIN_AGE || age > MAX_AGE) {
+      throw new Error(`Given age (${age}) is not between sensible age range of ${MIN_AGE} and ${MAX_AGE}`)
+    }
+
+    let year = dateOfBirth.getFullYear()
+    const month = (dateOfBirth.getMonth() + 1).toString().padStart(2, '0')
+    const dayOfMonth = dateOfBirth.getDate().toString().padStart(2, '0')
+    const rollingId = randomNumber(800) + 99 //  No need for padding when rollingId >= 100
 
     const possibleCenturySigns: string[] = []
     centuryMap.forEach((value: number, key: string) => {
@@ -102,6 +110,10 @@ export class FinnishSSN {
   public static isLeapYear(year: number): boolean {
     return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0
   }
+}
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+if (typeof window !== 'undefined') {
+  (<any>window).FinnishSSN = FinnishSSN
 }
 
 const centuryMap: Map<string, number> = new Map()
