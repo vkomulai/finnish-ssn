@@ -29,7 +29,7 @@ describe('FinnishSSN', () => {
     })
 
     it('Should fail when given invalid separator char for year 1900', () => {
-      const invalidSeparatorChars = 'ABCDEFGHIJKLMNOPQRST1234567890'.split('')
+      const invalidSeparatorChars = 'ABCDEFGHIJKLMNOPQRST1234567890 !"#$%&\'()*,./:;<=>?@[\\]^_`{|}~'.split('')
       invalidSeparatorChars.forEach((invalidChar) => {
         expect(FinnishSSN.validate('010195' + invalidChar + '433X')).to.equal(false)
         expect(FinnishSSN.validate('010195' + invalidChar.toLowerCase() + '433X')).to.equal(false)
@@ -37,7 +37,7 @@ describe('FinnishSSN', () => {
     })
 
     it('Should fail when given invalid separator char for year 2000', () => {
-      const invalidSeparatorChars = 'GHIJKLMNOPQRSTUVWXYZ1234567890'.split('')
+      const invalidSeparatorChars = 'GHIJKLMNOPQRSTUVWXYZ1234567890 !"#$%&\'()*,./:;<=>?@[\\]^_`{|}~'.split('')
       invalidSeparatorChars.forEach((invalidChar) => {
         expect(FinnishSSN.validate('010103' + invalidChar + '433X')).to.equal(false)
         expect(FinnishSSN.validate('010103' + invalidChar.toLowerCase() + '433X')).to.equal(false)
@@ -65,7 +65,13 @@ describe('FinnishSSN', () => {
     })
 
     it('Should pass when given valid FinnishSSN from 20th century', () => {
-      expect(FinnishSSN.validate('010197-100P')).to.equal(true)
+      const hypotheticalIndividuals = [
+        '010101-0101',
+        '010197-100P'
+      ]
+      hypotheticalIndividuals.forEach((individual) => {
+        expect(FinnishSSN.validate(individual)).to.equal(true)
+      })
     })
 
     it('Should pass when given valid FinnishSSN from 21st century', () => {
