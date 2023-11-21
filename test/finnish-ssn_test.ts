@@ -65,10 +65,7 @@ describe('FinnishSSN', () => {
     })
 
     it('Should pass when given valid FinnishSSN from 20th century', () => {
-      const hypotheticalIndividuals = [
-        '010101-0101',
-        '010197-100P'
-      ]
+      const hypotheticalIndividuals = ['010101-0101', '010197-100P']
       hypotheticalIndividuals.forEach((individual) => {
         expect(FinnishSSN.validate(individual)).to.equal(true)
       })
@@ -454,13 +451,23 @@ describe('FinnishSSN', () => {
       for (let i = 0; i < ssnsToGenerate; i++) {
         const ssn = FinnishSSN.createWithAge(age)
         try {
-          expect(ssn).to.match(new RegExp('\\d{4}99[-|U-Y][\\d]{3}[A-Z0-9]'))
           const person = FinnishSSN.parse(ssn)
+          const dateOfBirthPlusAge = new Date(
+            person.dateOfBirth.getFullYear() + age,
+            person.dateOfBirth.getMonth(),
+            person.dateOfBirth.getDate(),
+          )
+          // Special case if person is born on 1.1.2000, age is currentYear - 2000 as mock date is set to 1.1.currentYear
+          if (dateOfBirthPlusAge.getTime() === new Date().getTime()) {
+            expect(ssn).to.match(new RegExp('\\d{4}00[A-F][\\d]{3}[A-Z0-9]'))
+          } else {
+            expect(ssn).to.match(new RegExp('\\d{4}99[-|U-Y][\\d]{3}[A-Z0-9]'))
+          }
           expect(person.ageInYears).to.equal(age)
         } catch (e) {
           const e2 = new Error(`For SSN ${ssn}: ${e}`)
           e2.stack = e.stack
-          throw e2;
+          throw e2
         }
       }
     })
@@ -470,10 +477,20 @@ describe('FinnishSSN', () => {
       MockDate.set(`12/31/${currentYear}`)
       const age = currentYear - 2000
 
-      const ssn = FinnishSSN.createWithAge(age)
-      expect(ssn).to.match(new RegExp('\\d{4}00[A-F][\\d]{3}[A-Z0-9]'))
-      const person = FinnishSSN.parse(ssn)
-      expect(person.ageInYears).to.equal(age)
+      const ssnsToGenerate = 10000
+
+      for (let i = 0; i < ssnsToGenerate; i++) {
+        const ssn = FinnishSSN.createWithAge(age)
+        try {
+          const person = FinnishSSN.parse(ssn)
+          expect(ssn).to.match(new RegExp('\\d{4}00[A-F][\\d]{3}[A-Z0-9]'))
+          expect(person.ageInYears).to.equal(age)
+        } catch (e) {
+          const e2 = new Error(`For SSN ${ssn}: ${e}`)
+          e2.stack = e.stack
+          throw e2
+        }
+      }
     })
   })
 })

@@ -76,10 +76,15 @@ export class FinnishSSN {
     const today = new Date()
     let year = today.getFullYear() - age
     const month = randomMonth()
-    const dayOfMonth = randomDay(year, month)
+    let dayOfMonth = randomDay(year, month)
     const rollingId = randomNumber(800) + 99 //  No need for padding when rollingId >= 100
 
     if (!birthDayPassed(new Date(year, Number(month) - 1, Number(dayOfMonth)), today)) {
+      if (this.isLeapYear(year)) {
+        if (dayOfMonth === '29' && month === february) {
+          dayOfMonth = '28'
+        }
+      }
       year--
     }
 

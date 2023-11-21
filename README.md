@@ -109,6 +109,7 @@ npm run test:watch
 ### 2.1.2
 
 - FIXED: [Fix SSN_REGEX not to include pipe character in allowed characters](https://github.com/vkomulai/finnish-ssn/pull/28)
+- FIXED: createWithAge leap year corner case and test
 
 ### 2.1.1
 

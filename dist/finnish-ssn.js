@@ -62,8 +62,16 @@ class FinnishSSN {
         const today = new Date();
         let year = today.getFullYear() - age;
         const month = randomMonth();
-        const dayOfMonth = randomDay(year, month);
+        let dayOfMonth = randomDay(year, month);
         const rollingId = randomNumber(800) + 99; //  No need for padding when rollingId >= 100
+        if (!birthDayPassed(new Date(year, Number(month) - 1, Number(dayOfMonth)), today)) {
+            if (this.isLeapYear(year)) {
+                if (dayOfMonth === '29' && month === february) {
+                    dayOfMonth = '28';
+                }
+            }
+            year--;
+        }
         const possibleCenturySigns = [];
         centuryMap.forEach((value, key) => {
             if (value === Math.floor(year / 100) * 100) {
@@ -71,9 +79,6 @@ class FinnishSSN {
             }
         });
         const centurySign = possibleCenturySigns[Math.floor(Math.random() * possibleCenturySigns.length)];
-        if (!birthDayPassed(new Date(year, Number(month) - 1, Number(dayOfMonth)), today)) {
-            year--;
-        }
         year = year % 100;
         const yearString = yearToPaddedString(year);
         const checksumBase = parseInt(dayOfMonth + month + yearString + rollingId, 10);
@@ -118,7 +123,7 @@ daysInMonthMap.set('12', 31);
 const checksumTable = '0123456789ABCDEFHJKLMNPRSTUVWXY'.split('');
 const MIN_AGE = 1;
 const MAX_AGE = 200;
-const SSN_REGEX = /^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])([5-9]\d\+|\d\d[-|U-Y]|[012]\d[A-F])\d{3}[\dA-Z]$/;
+const SSN_REGEX = /^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])([5-9]\d\+|\d\d[-U-Y]|[012]\d[A-F])\d{3}[\dA-Z]$/;
 function randomMonth() {
     return `00${randomNumber(12)}`.substr(-2, 2);
 }
