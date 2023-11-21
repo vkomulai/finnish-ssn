@@ -138,7 +138,7 @@ const checksumTable: string[] = '0123456789ABCDEFHJKLMNPRSTUVWXY'.split('')
 
 const MIN_AGE = 1
 const MAX_AGE = 200
-const SSN_REGEX = /^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])([5-9]\d\+|\d\d[-|U-Y]|[012]\d[A-F])\d{3}[\dA-Z]$/
+const SSN_REGEX = /^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])([5-9]\d\+|\d\d[-U-Y]|[012]\d[A-F])\d{3}[\dA-Z]$/
 
 function randomMonth(): string {
   return `00${randomNumber(12)}`.substr(-2, 2)
