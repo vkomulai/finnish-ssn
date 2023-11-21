@@ -449,10 +449,20 @@ describe('FinnishSSN', () => {
       MockDate.set(`01/01/${currentYear}`)
       const age = currentYear - 2000
 
-      const ssn = FinnishSSN.createWithAge(age)
-      expect(ssn).to.match(new RegExp('\\d{4}99[-|U-Y][\\d]{3}[A-Z0-9]'))
-      const person = FinnishSSN.parse(ssn)
-      expect(person.ageInYears).to.equal(age)
+      const ssnsToGenerate = 10000
+
+      for (let i = 0; i < ssnsToGenerate; i++) {
+        const ssn = FinnishSSN.createWithAge(age)
+        try {
+          expect(ssn).to.match(new RegExp('\\d{4}99[-|U-Y][\\d]{3}[A-Z0-9]'))
+          const person = FinnishSSN.parse(ssn)
+          expect(person.ageInYears).to.equal(age)
+        } catch (e) {
+          const e2 = new Error(`For SSN ${ssn}: ${e}`)
+          e2.stack = e.stack
+          throw e2;
+        }
+      }
     })
 
     it('Should set correct centurySign and age when person is (now.year - 2000) birthday has passed, that is born in 2000', () => {
