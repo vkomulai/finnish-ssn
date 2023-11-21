@@ -106,6 +106,10 @@ npm run test:watch
 
 ## Changelog
 
+### 2.1.2
+
+- FIXED: [Fix SSN_REGEX not to include pipe character in allowed characters](https://github.com/vkomulai/finnish-ssn/pull/28)
+
 ### 2.1.1
 
 - FIXED: [Issue 25: NodeJS engine locked to a specific version](https://github.com/vkomulai/finnish-ssn/issues/25)
